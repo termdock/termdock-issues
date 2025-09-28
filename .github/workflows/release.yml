@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+      prerelease:
+        description: 'Is this a pre-release?'
+        type: boolean
+        default: false
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
+          draft: true
+          prerelease: ${{ github.event.inputs.prerelease }}
+          body: |
+            ## What's Changed
+
+            ### Features
+            -
+
+            ### Bug Fixes
+            -
+
+            ### Downloads
+            Please download the appropriate installer for your platform below.
+
+            ---
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/previous-tag...${{ github.event.inputs.version }}
+
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+  upload-assets:
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    strategy:
+      matrix:
+        include:
+          - os: windows
+            ext: .exe
+          - os: macos
+            ext: .dmg
+          - os: linux
+            ext: .AppImage
+
+    steps:
+      - name: Placeholder for asset upload
+        run: |
+          echo "Asset upload for ${{ matrix.os }} would happen here"
+          echo "You'll need to manually upload files or integrate with your private repo's CI"

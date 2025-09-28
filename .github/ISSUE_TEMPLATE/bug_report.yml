@@ -1,0 +1,94 @@
+name: Bug Report | 錯誤回報
+description: Report a bug in Termdock | 回報 Termdock 的錯誤
+title: "[Bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **English**: Thanks for taking the time to fill out this bug report!
+
+        **繁體中文**: 感謝您花時間填寫這份錯誤回報！
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: Termdock Version | Termdock 版本
+      description: What version of Termdock are you running? | 您使用的 Termdock 版本？
+      options:
+        - v1.2.15
+        - v1.2.14
+        - Latest (main branch) | 最新版 (主分支)
+        - Other (please specify in description) | 其他 (請在描述中說明)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: macOS Platform | macOS 平台
+      description: Which Mac are you using? | 您使用的 Mac 類型？
+      options:
+        - macOS (Intel)
+        - macOS (Apple Silicon - M1/M2/M3)
+        - macOS (Unknown/Unsure) | macOS (不確定)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description | 錯誤描述
+      description: A clear and concise description of what the bug is. | 清楚簡潔地描述這個錯誤。
+      placeholder: |
+        English: Tell us what happened!
+        繁體中文: 告訴我們發生了什麼！
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce | 重現步驟
+      description: Steps to reproduce the behavior | 重現此行為的步驟
+      placeholder: |
+        English:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+
+        繁體中文:
+        1. 前往 '...'
+        2. 點擊 '....'
+        3. 向下滾動到 '....'
+        4. 看到錯誤
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior | 預期行為
+      description: A clear and concise description of what you expected to happen. | 清楚簡潔地描述您預期應該發生什麼。
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots | 螢幕截圖
+      description: If applicable, add screenshots to help explain your problem. | 如果適用，請添加螢幕截圖來幫助說明您的問題。
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs | 日誌
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks. | 請複製並貼上任何相關的日誌輸出。這將自動格式化為程式碼，所以不需要反引號。
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context | 額外資訊
+      description: Add any other context about the problem here. | 在此處添加關於問題的任何其他相關資訊。

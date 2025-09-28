@@ -1,0 +1,70 @@
+name: Feature Request | 功能建議
+description: Suggest an idea for Termdock | 為 Termdock 建議新功能
+title: "[Feature] "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **English**: Thanks for suggesting a new feature for Termdock!
+
+        **繁體中文**: 感謝您為 Termdock 建議新功能！
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description | 問題描述
+      description: Is your feature request related to a problem? Please describe. | 您的功能請求是否與某個問題相關？請描述。
+      placeholder: |
+        English: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+        繁體中文: 清楚簡潔地描述問題是什麼。例如：我總是在 [...] 時感到困擾
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution | 建議解決方案
+      description: Describe the solution you'd like | 描述您希望的解決方案
+      placeholder: |
+        English: A clear and concise description of what you want to happen.
+        繁體中文: 清楚簡潔地描述您希望發生什麼。
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered | 考慮的替代方案
+      description: Describe alternatives you've considered | 描述您考慮過的替代方案
+      placeholder: |
+        English: A clear and concise description of any alternative solutions or features you've considered.
+        繁體中文: 清楚簡潔地描述您考慮過的任何替代解決方案或功能。
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority | 優先級
+      description: How important is this feature to you? | 這個功能對您有多重要？
+      options:
+        - Low - Nice to have | 低 - 有更好
+        - Medium - Would improve workflow | 中 - 會改善工作流程
+        - High - Essential for my use case | 高 - 對我的使用情況至關重要
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: implementation
+    attributes:
+      label: Implementation | 實作
+      description: Are you willing to contribute to this feature? | 您願意為這個功能做出貢獻嗎？
+      options:
+        - label: I'd be willing to help implement this feature | 我願意協助實作這個功能
+        - label: I can provide detailed requirements/specifications | 我可以提供詳細需求/規格說明
+        - label: I can help with testing | 我可以協助測試
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context | 額外資訊
+      description: Add any other context, mockups, or screenshots about the feature request here. | 在此處添加關於功能請求的任何其他相關資訊、模型圖或螢幕截圖。

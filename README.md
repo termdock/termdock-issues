@@ -4,11 +4,7 @@
 
 *Enhancing multi-AI CLI tools efficiency and workflow integration*
 
-**Languages**: [English](#english) | [繁體中文](#繁體中文)
-
----
-
-## English
+**Languages**: English | [繁體中文](README.zh-TW.md)
 
 > This repository is for **downloading Termdock releases** and **reporting issues**. Main development happens in a private repository.
 

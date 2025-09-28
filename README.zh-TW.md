@@ -4,7 +4,7 @@
 
 *提升多 AI CLI 工具的效率與工作流整合*
 
-**語言**: [English](README.md) | [繁體中文](#繁體中文)
+**語言**: [English](README.md) | 繁體中文
 
 ---
 

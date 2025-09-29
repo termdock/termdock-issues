@@ -29,8 +29,6 @@ body:
       placeholder: |
         English: A clear and concise description of what you want to happen.
         繁體中文: 清楚簡潔地描述您希望發生什麼。
-    validations:
-      required: true
 
   - type: textarea
     id: alternatives
@@ -50,8 +48,6 @@ body:
         - Low - Nice to have | 低 - 有更好
         - Medium - Would improve workflow | 中 - 會改善工作流程
         - High - Essential for my use case | 高 - 對我的使用情況至關重要
-    validations:
-      required: true
 
   - type: checkboxes
     id: implementation

@@ -20,8 +20,6 @@ body:
         - v1.2.14
         - Latest (main branch) | 最新版 (主分支)
         - Other (please specify in description) | 其他 (請在描述中說明)
-    validations:
-      required: true
 
   - type: dropdown
     id: platform
@@ -32,8 +30,6 @@ body:
         - macOS (Intel)
         - macOS (Apple Silicon - M1/M2/M3)
         - macOS (Unknown/Unsure) | macOS (不確定)
-    validations:
-      required: true
 
   - type: textarea
     id: description
@@ -63,16 +59,12 @@ body:
         2. 點擊 '....'
         3. 向下滾動到 '....'
         4. 看到錯誤
-    validations:
-      required: true
 
   - type: textarea
     id: expected
     attributes:
       label: Expected Behavior | 預期行為
       description: A clear and concise description of what you expected to happen. | 清楚簡潔地描述您預期應該發生什麼。
-    validations:
-      required: true
 
   - type: textarea
     id: screenshots

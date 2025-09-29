@@ -15,14 +15,18 @@ Termdock is a powerful desktop application designed for modern AI-driven develop
 #### Core Features
 
 **Smart Terminal Management**
-- Multi-tab terminal interface with quick workspace switching
+- Multi-tab terminal interface with independent Shell sessions per tab
+- Quick tab switching (Cmd+1-9)
+- Drag-and-drop tab reordering
+- Automatic session recovery
+- Split view: horizontal split (Cmd+D), vertical split (Cmd+Shift+D)
+- Picture-in-picture window support
+- Flexible split pane resizing
+- cmd+p quick workspace switching
+- Terminal grouping by workspace
 - Support for large paste context with compression logging
 - Complete git management
 - Full file explorer
-- cmd+p quick workspace switching
-- Terminal grouping by workspace
-- Multi-split view, up to 4 terminals simultaneously with free switching
-- Picture-in-picture window support
 - Theme modes and custom background images
 - Auto-generated commit messages (currently requires BYOK)
 

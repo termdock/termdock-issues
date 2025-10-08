@@ -57,9 +57,14 @@ Termdock 是一個強大的桌面應用程式，專為現代 AI 驅動的開發�
 
 ## 下載安裝
 
-**最新版本**: [點此下載](https://github.com/termdock/Termdock-issues/releases/latest)
+### Homebrew（推薦）
+```bash
+brew tap termdock/termdock-issues https://github.com/termdock/termdock-issues
+brew install --cask termdock
+```
 
-### 目前支援平台
+### 手動下載
+**最新版本**: [點此下載](https://github.com/termdock/Termdock-issues/releases/latest)
 
 **僅支援 macOS**
 - **Intel Mac**: 下載 `Termdock-x.x.x.dmg`

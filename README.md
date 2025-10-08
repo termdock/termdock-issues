@@ -52,9 +52,14 @@ Termdock is a powerful desktop application designed for modern AI-driven develop
 
 ### Download & Installation
 
-**Latest Release**: [Download Here](https://github.com/termdock/Termdock-issues/releases/latest)
+#### Homebrew (Recommended)
+```bash
+brew tap termdock/termdock-issues https://github.com/termdock/termdock-issues
+brew install --cask termdock
+```
 
-#### Currently Available
+#### Manual Download
+**Latest Release**: [Download Here](https://github.com/termdock/Termdock-issues/releases/latest)
 
 **macOS Only**
 - **Intel Mac**: Download `Termdock-x.x.x.dmg`

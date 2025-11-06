@@ -1,5 +1,20 @@
 # Termdock
 
+## 重要公告：x64 用戶無法開啟終端機
+
+目前部分 **x64** 用戶可能遇到「終端機無法開啟」的問題。  
+如果可以的話請你安裝 **v1.3.2‑beta** 複製日誌貼到 Issue，非常感謝
+
+下載連結：[v1.3.2‑beta 版本](https://github.com/termdock/termdock-issues/releases/tag/v1.3.2-beta)
+
+Important Notice: x64 users unable to open Terminal
+
+Some x64 users may experience an issue where the terminal won’t open.
+If possible, please install v1.3.2‑beta and paste your launch logs in an Issue. Thank you.
+
+Download: v1.3.2‑beta (https://github.com/termdock/termdock-issues/releases/tag/v1.3.2-beta)
+
+-------
 **AI-Powered Terminal Integration Platform** | **AI 開發者終端整合平台**
 
 *Enhancing multi-AI CLI tools efficiency and workflow integration*

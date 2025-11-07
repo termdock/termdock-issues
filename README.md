@@ -2,17 +2,13 @@
 
 ## 重要公告：x64 用戶無法開啟終端機
 
-目前部分 **x64** 用戶可能遇到「終端機無法開啟」的問題。  
-如果可以的話請你安裝 **v1.3.2‑beta** 複製日誌貼到 Issue，非常感謝
+目前部分 **x64** 用戶可能遇到「終端機無法開啟」的問題，如果可以的話請你更新到 1.3.2，更新 1.3.2 後出現錯誤會彈出視窗，點選ok後會複製完整訊息，請幫我貼到 Issue，非常感謝
 
-下載連結：[v1.3.2‑beta 版本](https://github.com/termdock/termdock-issues/releases/tag/v1.3.2-beta)
+We found why some Intel Macs couldn’t open the Terminal: the app was loading the arm64 pty by default. That’s fixed.
 
-Important Notice: x64 users unable to open Terminal
+Still stuck on x64? You’ll see an error log dialog. Hit “OK” and paste that log into the GitHub issue so I can dig in.
 
-Some x64 users may experience an issue where the terminal won’t open.
-If possible, please install v1.3.2‑beta and paste your launch logs in an Issue. Thank you.
-
-Download: v1.3.2‑beta (https://github.com/termdock/termdock-issues/releases/tag/v1.3.2-beta)
+Grab the right DMG for your Mac (Intel or Apple Silicon). If anything still breaks, send the log—I’ll follow up. Thanks!
 
 -------
 **AI-Powered Terminal Integration Platform** | **AI 開發者終端整合平台**

@@ -1,6 +1,6 @@
 # Termdock
 
-## 重要公告：x64 用戶無法開啟終端機
+## Use this English heading: “Important Notice: x64 users cannot open Terminal.”
 
 目前部分 **x64** 用戶可能遇到「終端機無法開啟」的問題，如果可以的話請你更新到 1.3.2，更新 1.3.2 後出現錯誤會彈出視窗，點選ok後會複製完整訊息，請幫我貼到 Issue，非常感謝
 

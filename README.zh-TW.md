@@ -154,8 +154,9 @@ brew install --cask termdock
 **最新版本**: [點此下載](https://github.com/termdock/Termdock-issues/releases/latest)
 
 **macOS 系統需求**
-- macOS 10.14 以上（建議 Monterey 或更新版本）
+- macOS 10.14 或更新版本
 - Intel 或 Apple Silicon 處理器
+- **建議硬體**: Apple Silicon (M1/M2/M3/M4) 以獲得最佳效能
 
 **安裝步驟**
 1. 下載對應您 Mac 的 DMG 檔案：
@@ -210,7 +211,7 @@ brew install --cask termdock
 
 - **穩定版本**: 正式發布的更新版本
 - **開發版本**: 包含最新功能的預覽版本
-- **系統需求**: macOS 10.14 以上（建議 Monterey 或更新版本）
+- **系統需求**: macOS 10.14 以上，建議使用 Apple Silicon
 
 ---
 

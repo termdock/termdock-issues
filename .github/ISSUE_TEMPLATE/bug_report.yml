@@ -16,8 +16,6 @@ body:
       label: Termdock Version | Termdock 版本
       description: What version of Termdock are you running? | 您使用的 Termdock 版本？
       options:
-        - v1.2.15
-        - v1.2.14
         - Latest (main branch) | 最新版 (主分支)
         - Other (please specify in description) | 其他 (請在描述中說明)
 
@@ -28,7 +26,7 @@ body:
       description: Which Mac are you using? | 您使用的 Mac 類型？
       options:
         - macOS (Intel)
-        - macOS (Apple Silicon - M1/M2/M3)
+        - macOS (Apple Silicon - M1 ~ M5)
         - macOS (Unknown/Unsure) | macOS (不確定)
 
   - type: textarea

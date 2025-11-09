@@ -154,8 +154,9 @@ brew install --cask termdock
 **Latest Release**: [Download Here](https://github.com/termdock/Termdock-issues/releases/latest)
 
 **macOS Requirements**
-- macOS 10.14+ (Monterey or later recommended)
+- macOS 10.14 or later
 - Intel or Apple Silicon processor
+- **Recommended**: Apple Silicon (M1/M2/M3/M4) for optimal performance
 
 **Installation Steps**
 1. Download the appropriate DMG for your Mac:
@@ -210,7 +211,7 @@ Follow this repository to get notified of new releases:
 
 - **Stable Releases**: Production-ready updates
 - **Development Releases**: Preview versions with latest features
-- **System Requirements**: macOS 10.14+ (Monterey or later recommended)
+- **System Requirements**: macOS 10.14+, Apple Silicon recommended
 
 ---
 

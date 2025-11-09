@@ -1,113 +1,223 @@
+<div align="center">
+
 # Termdock
 
-## Important Notice: x64 users cannot open Terminal
+**Terminal-Centric AI Development Environment**
 
-目前部分 **x64** 用戶可能遇到「終端機無法開啟」的問題，如果可以的話請你更新到 1.3.2，更新 1.3.2 後出現錯誤會彈出視窗，點選ok後會複製完整訊息，請幫我貼到 Issue，非常感謝
+*Unified workspace for AI CLI tools, multi-terminals, and Git workflows*
 
-We found why some Intel Macs couldn’t open the Terminal: the app was loading the arm64 pty by default. That’s fixed.
-
-Still stuck on x64? You’ll see an error log dialog. Hit “OK” and paste that log into the GitHub issue so I can dig in.
-
-Grab the right DMG for your Mac (Intel or Apple Silicon). If anything still breaks, send the log—I’ll follow up. Thanks!
-
--------
-**AI-Powered Terminal Integration Platform** | **AI 開發者終端整合平台**
-
-*Enhancing multi-AI CLI tools efficiency and workflow integration*
+[![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1033858&theme=light)](https://www.producthunt.com/products/termdock)
 
 **Languages**: English | [繁體中文](README.zh-TW.md)
 
-> This repository is for **downloading Termdock releases** and **reporting issues**. Main development happens in a private repository.
+[Download](https://github.com/termdock/termdock-issues/releases/latest) • [Documentation](https://termdock.com/docs) • [Report Issue](https://github.com/termdock/termdock-issues/issues) • [Discussions](https://github.com/termdock/termdock-issues/discussions)
 
-### What is Termdock?
+</div>
 
-Termdock is a powerful desktop application designed for modern AI-driven development workflows. It integrates terminal management, code analysis, file handling, and AI tools to help developers use various AI CLI tools more efficiently.
+---
 
-#### Core Features
+## Demo
 
-**Smart Terminal Management**
-- Multi-tab terminal interface with independent Shell sessions per tab
+![Termdock Demo](demo.mp4)
+
+> **Note**: This repository is for **downloading Termdock releases** and **reporting issues**. Main development happens in a private repository.
+
+## Important Notice: Intel Mac Users
+
+If you're on an **Intel Mac** and experiencing terminal launch issues:
+
+1. **Update to version 1.3.2+** - This fixes the ARM64 PTY loading issue
+2. If errors persist, a dialog will display the full error log
+3. Click "OK" to copy the log and [paste it in a GitHub issue](https://github.com/termdock/termdock-issues/issues)
+
+**Download the correct DMG for your Mac:**
+- Intel Mac → `Termdock-x.x.x.dmg`
+- Apple Silicon → `Termdock-x.x.x-arm64.dmg`
+
+---
+
+## What is Termdock?
+
+Termdock is a **terminal-centric AI development environment** that unifies AI CLI tools, workspace management, and Git workflows in one powerful interface. Built for developers who live in the terminal but want the power of modern development tools.
+
+### Why Termdock?
+
+- **AI-First Design** - Seamlessly integrate Claude Code, Cursor AI, Aider, and other AI CLI tools
+- **AST-Powered Code Search** - Tree-sitter integration for 13+ programming languages with intelligent symbol analysis
+- **Multi-Workspace Management** - Handle multiple projects and repositories with instant context switching
+- **Smart Terminal** - Split views, tab management, and session persistence built-in
+- **Highly Customizable** - Themes, backgrounds, layouts - make it yours
+
+---
+
+## Screenshots
+
+<div align="center">
+
+### AST-Powered Code Analysis
+*Intelligent symbol search and dependency visualization across 13+ languages*
+
+![Code Analysis](termdock-code-analysis.png)
+
+### Multi-Terminal Workspace
+*Manage multiple terminals, repositories, and AI tools in one unified interface*
+
+![Multi-Terminal](termdock-multi-terminal.png)
+
+### Theme Customization
+*Dark mode, light mode, and custom backgrounds - personalize your workspace*
+
+![Theme Customization](termdock-theme.png)
+
+</div>
+
+---
+
+## Core Features
+
+### Smart Terminal Management
+- Multi-tab interface with independent Shell sessions
 - Quick tab switching (Cmd+1-9)
 - Drag-and-drop tab reordering
 - Automatic session recovery
-- Split view: horizontal split (Cmd+D), vertical split (Cmd+Shift+D)
-- Picture-in-picture window support
-- Flexible split pane resizing
-- cmd+p quick workspace switching
+- Split view support:
+  - Horizontal split (Cmd+D)
+  - Vertical split (Cmd+Shift+D)
+  - Flexible pane resizing
+- Picture-in-picture window mode
+- Quick workspace switching (Cmd+P)
 - Terminal grouping by workspace
-- Support for large paste context with compression logging
-- Complete git management
-- Full file explorer
-- Theme modes and custom background images
-- Auto-generated commit messages (currently requires BYOK)
 
-**Advanced File Processing**
+### AST Code Analysis (BETA)
+- Tree-sitter integration supporting **13+ programming languages**:
+  - JavaScript, TypeScript, Python, Rust, Go
+  - C, C++, Java, Ruby, PHP, Swift
+  - And more...
+- Intelligent symbol reference finding
+- Dependency analysis and visualization
+- Function call graph generation
+- Precise code navigation
+
+### AI CLI Tools Integration
+- Optimized workflows for:
+  - Claude Code
+  - Cursor AI
+  - Aider
+  - GitHub Copilot CLI
+  - And any terminal-based AI tool
+- Large context paste with compression logging
+- AI-generated commit messages (BYOK)
+
+### Git & File Management
+- Complete Git integration with visual branch management
+- Full-featured file explorer
 - Clipboard image auto-processing
 - Drag-and-drop file upload with validation
 - Full-text search and fuzzy filename matching
 
-**Developer Experience**
-- Git integration toolbar with branch management
-- Dynamic theme system
+### Developer Experience
+- Dynamic theme system with custom backgrounds
 - Global hotkey support
+- Fast, native macOS performance
+- Lightweight and responsive
 
-**AST Code Analysis (BETA)**
-- Tree-sitter integration supporting 13+ programming languages
-- Intelligent symbol reference finding and dependency analysis
-- Function call graph visualization
+---
 
-### NEXT (v2.0)
-- AST API
-- SDD development mode
-- Custom command-driven CLI tool operations for enhanced functionality
+## What's Coming Next
 
-### Download & Installation
+### In Development (v1.4.0 ～ ... )
+- **Windows Support** - Native Windows build with full terminal and AST support *(35% complete, ETA: Late November 2025)*
 
-#### Homebrew (Recommended)
+### Planned Features
+- **Public AST API** - REST/GraphQL API for external integrations and LSP support
+- **Plan Mode with CLI** - Interactive planning mode integrated with AI CLI workflows
+- **CLI Control Interface** - Command-line interface to automate Termdock operations
+- **UI Enhancements & i18n** - Panel-based code viewer, Japanese & Korean language support
+- **Linux Support** - Native builds for Debian/Ubuntu and AppImage
+
+[View Full Roadmap](https://termdock.com/roadmap) • [Feature Requests](https://github.com/termdock/termdock-issues/discussions)
+
+---
+
+## Download & Installation
+
+### Homebrew (Recommended)
 ```bash
 brew tap termdock/termdock-issues https://github.com/termdock/termdock-issues
 brew install --cask termdock
 ```
 
-#### Manual Download
+### Manual Download
+
 **Latest Release**: [Download Here](https://github.com/termdock/Termdock-issues/releases/latest)
 
-**macOS Only**
-- **Intel Mac**: Download `Termdock-x.x.x.dmg`
-- **Apple Silicon**: Download `Termdock-x.x.x-arm64.dmg`
-- Open the DMG file and drag Termdock to Applications folder
-- First launch may require allowing the app in System Preferences > Security & Privacy
+**macOS Requirements**
+- macOS 10.14+ (Monterey or later recommended)
+- Intel or Apple Silicon processor
 
-**Coming Soon**
-- Windows and Linux versions are planned for future releases
+**Installation Steps**
+1. Download the appropriate DMG for your Mac:
+   - **Intel Mac**: `Termdock-x.x.x.dmg`
+   - **Apple Silicon**: `Termdock-x.x.x-arm64.dmg`
+2. Open the DMG file and drag Termdock to Applications folder
+3. First launch may require allowing the app in:
+   - `System Preferences` → `Security & Privacy`
 
-### Bug Reports & Feature Requests
+**Platform Availability**
+- macOS (Intel & Apple Silicon)
+- Windows (Coming Soon)
+- Linux (Coming Soon)
 
-Found a bug or have a feature idea? Please [create an issue](https://github.com/termdock/termdock-issues/issues)!
+---
 
-#### Before Reporting
-- [ ] Check if the issue already exists
-- [ ] Try the latest version
-- [ ] Include your macOS version and Termdock version information
+## Bug Reports & Feature Requests
 
-### Support
+Found a bug or have an idea? We'd love to hear from you!
+
+[**Create an Issue**](https://github.com/termdock/termdock-issues/issues) | [**Start a Discussion**](https://github.com/termdock/termdock-issues/discussions)
+
+### Before Reporting
+- Check if the issue already exists
+- Try the latest version
+- Include:
+  - macOS version
+  - Termdock version
+  - Steps to reproduce
+  - Error logs (if applicable)
+
+---
+
+## Community & Support
 
 - **Issues**: [GitHub Issues](https://github.com/termdock/Termdock-issues/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/termdock/Termdock-issues/discussions)
+- **Documentation**: [termdock.com/docs](https://termdock.com/docs)
+- **Website**: [termdock.com](https://termdock.com)
 
-### Release Updates
+---
+
+## Stay Updated
 
 Follow this repository to get notified of new releases:
-- Click **Watch** → **Custom** → **Releases**
+1. Click **Watch** at the top
+2. Select **Custom** → **Releases**
 
-### Version Information
+---
 
-- **Stable Releases**: Regular stable updates
+## Version Information
+
+- **Stable Releases**: Production-ready updates
 - **Development Releases**: Preview versions with latest features
 - **System Requirements**: macOS 10.14+ (Monterey or later recommended)
 
 ---
 
-**Termdock - Making AI Development Tools Smarter and More Efficient!**
+<div align="center">
 
-> Note: This is a distribution repository. Feature development and source code are maintained privately.
+**Termdock - Making AI Development Smarter and More Efficient**
+
+Built for developers who live in the terminal
+
+[Website](https://termdock.com) • [Download](https://github.com/termdock/termdock-issues/releases/latest) • [Docs](https://termdock.com/docs)
+
+</div>

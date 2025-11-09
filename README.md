@@ -18,7 +18,9 @@
 
 ## Demo
 
-![Termdock Demo](demo.mp4)
+![Termdock Demo](demo.gif)
+
+**[▶ Watch full video on YouTube](https://www.youtube.com/watch?v=rjkPY-c4eMM)**
 
 > **Note**: This repository is for **downloading Termdock releases** and **reporting issues**. Main development happens in a private repository.
 

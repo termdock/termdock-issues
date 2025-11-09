@@ -18,7 +18,9 @@
 
 ## 展示影片
 
-![Termdock Demo](demo.mp4)
+![Termdock Demo](demo.gif)
+
+**[▶ 在 YouTube 觀看完整影片](https://www.youtube.com/watch?v=rjkPY-c4eMM)**
 
 > **注意**: 此 repository 用於**下載 Termdock 安裝檔**與**回報問題**。主要開發在私有 repository 進行。
 

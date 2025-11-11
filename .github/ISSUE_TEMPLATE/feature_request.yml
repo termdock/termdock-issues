@@ -11,13 +11,13 @@ body:
         **繁體中文**: 感謝您為 Termdock 建議新功能！
 
   - type: textarea
-    id: problem
+    id: description
     attributes:
-      label: Problem Description | 問題描述
-      description: Is your feature request related to a problem? Please describe. | 您的功能請求是否與某個問題相關？請描述。
+      label: Feature Description | 功能描述
+      description: Describe the feature you'd like | 描述您想要的功能
       placeholder: |
-        English: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
-        繁體中文: 清楚簡潔地描述問題是什麼。例如：我總是在 [...] 時感到困擾
+        English: A clear description of what you want. Ex. I'm always frustrated when [...]
+        繁體中文: 清楚描述您想要什麼。例如：我總是在 [...] 時感到困擾
     validations:
       required: true
 

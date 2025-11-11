@@ -14,7 +14,11 @@ body:
     id: version
     attributes:
       label: Termdock Version | Termdock 版本
-      description: What version of Termdock are you running? | 您使用的 Termdock 版本？
+      description: |
+        What version of Termdock are you running? | 您使用的 Termdock 版本？
+        
+        How to check: Settings → About or Menu Bar → Termdock → About Termdock
+        如何查看：設定 → 關於 或 系統工作列 → Termdock → About Termdock
       options:
         - Latest (main branch) | 最新版 (主分支)
         - Other (please specify in description) | 其他 (請在描述中說明)
@@ -22,12 +26,15 @@ body:
   - type: dropdown
     id: platform
     attributes:
-      label: macOS Platform | macOS 平台
-      description: Which Mac are you using? | 您使用的 Mac 類型？
+      label: Platform | 平台
+      description: Which platform are you using? | 您使用的平台？
       options:
         - macOS (Intel)
         - macOS (Apple Silicon - M1 ~ M5)
-        - macOS (Unknown/Unsure) | macOS (不確定)
+        - Windows
+        - Other | 其他
+    validations:
+      required: true
 
   - type: textarea
     id: description

@@ -1,0 +1,41 @@
+name: Planned Feature | 計劃功能
+description: Official feature announcement and tracking | 官方功能公告與追蹤
+title: "[Official] "
+labels: ["official", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **✨ Planned Feature | 計劃功能**
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description | 描述
+      description: What is this feature? | 這個功能是什麼？
+    validations:
+      required: true
+
+  - type: textarea
+    id: features
+    attributes:
+      label: Features List | 功能列表
+      description: List of features/capabilities | 功能/能力列表
+      placeholder: |
+        - Feature 1
+        - Feature 2
+        - Feature 3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority | 優先度
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+    validations:
+      required: true

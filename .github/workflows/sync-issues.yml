@@ -1,0 +1,72 @@
+name: Sync Issues
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync to HCYT/Termdock
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.SYNC_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const comment = context.payload.comment;
+            const targetRepo = { owner: 'HCYT', repo: 'Termdock' };
+            
+            // 檢查是否已同步（避免循環）
+            if (issue.body?.includes('[Synced from')) return;
+            
+            // 尋找對應的 issue（透過標題比對）
+            const { data: existingIssues } = await github.rest.issues.listForRepo({
+              ...targetRepo,
+              state: 'all',
+              per_page: 100
+            });
+            
+            const syncedIssue = existingIssues.find(i => 
+              i.body?.includes(`[Synced from termdock/termdock-issues#${issue.number}]`)
+            );
+            
+            if (context.payload.action === 'opened' && !syncedIssue) {
+              // 建立新 issue
+              await github.rest.issues.create({
+                ...targetRepo,
+                title: issue.title,
+                body: `${issue.body}\n\n---\n[Synced from termdock/termdock-issues#${issue.number}]`,
+                labels: issue.labels.map(l => l.name)
+              });
+            } else if (syncedIssue) {
+              // 更新現有 issue
+              if (context.payload.action === 'edited') {
+                await github.rest.issues.update({
+                  ...targetRepo,
+                  issue_number: syncedIssue.number,
+                  title: issue.title,
+                  body: `${issue.body}\n\n---\n[Synced from termdock/termdock-issues#${issue.number}]`
+                });
+              } else if (context.payload.action === 'closed') {
+                await github.rest.issues.update({
+                  ...targetRepo,
+                  issue_number: syncedIssue.number,
+                  state: 'closed'
+                });
+              } else if (context.payload.action === 'reopened') {
+                await github.rest.issues.update({
+                  ...targetRepo,
+                  issue_number: syncedIssue.number,
+                  state: 'open'
+                });
+              } else if (comment) {
+                await github.rest.issues.createComment({
+                  ...targetRepo,
+                  issue_number: syncedIssue.number,
+                  body: `**${comment.user.login}** commented:\n\n${comment.body}`
+                });
+              }
+            }

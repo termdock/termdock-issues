@@ -21,7 +21,7 @@ Use the AST API when the user asks about:
 ### Step 1: Get Workspace ID
 
 ```bash
-curl -s 'http://localhost:3032/api/workspaces' | jq '.data.workspaces[] | {id, name}'
+curl -s 'http://localhost:3033/api/workspaces' | jq '.data.workspaces[] | {id, name}'
 ```
 
 Example output:
@@ -33,7 +33,7 @@ Example output:
 
 ```bash
 # Find symbols by name
-curl -s 'http://localhost:3032/api/search?q=UserService&workspace=ws_abc123'
+curl -s 'http://localhost:3033/api/search?q=UserService&workspace=ws_abc123'
 ```
 
 ---
@@ -44,9 +44,9 @@ curl -s 'http://localhost:3032/api/search?q=UserService&workspace=ws_abc123'
 
 #### Check Health
 ```bash
-curl 'http://localhost:3032/health'
+curl 'http://localhost:3033/health'
 # or
-curl 'http://localhost:3032/api/health'
+curl 'http://localhost:3033/api/health'
 ```
 
 Returns: service status, uptime, index statistics
@@ -57,7 +57,7 @@ Returns: service status, uptime, index statistics
 
 #### List All Workspaces
 ```bash
-curl 'http://localhost:3032/api/workspaces'
+curl 'http://localhost:3033/api/workspaces'
 ```
 
 Response fields:
@@ -67,7 +67,7 @@ Response fields:
 
 #### Get Single Workspace
 ```bash
-curl 'http://localhost:3032/api/workspaces/<wsId>'
+curl 'http://localhost:3033/api/workspaces/<wsId>'
 ```
 
 Returns: workspace details including index size, status, project root
@@ -78,7 +78,7 @@ Returns: workspace details including index size, status, project root
 
 #### Search Symbols
 ```bash
-curl 'http://localhost:3032/api/search?q=<query>&workspace=<wsId>&limit=<n>'
+curl 'http://localhost:3033/api/search?q=<query>&workspace=<wsId>&limit=<n>'
 ```
 
 Parameters:
@@ -88,7 +88,7 @@ Parameters:
 
 #### Get Symbol Details
 ```bash
-curl 'http://localhost:3032/api/symbols/<symbolId>?workspace=<wsId>'
+curl 'http://localhost:3033/api/symbols/<symbolId>?workspace=<wsId>'
 ```
 
 ---
@@ -97,19 +97,19 @@ curl 'http://localhost:3032/api/symbols/<symbolId>?workspace=<wsId>'
 
 #### Analyze File Dependencies
 ```bash
-curl 'http://localhost:3032/api/graph/deps?file=<relativePath>&workspace=<wsId>'
+curl 'http://localhost:3033/api/graph/deps?file=<relativePath>&workspace=<wsId>'
 ```
 
 Returns: imports and exports for the specified file
 
 #### Trace Outgoing Calls (what does X call?)
 ```bash
-curl 'http://localhost:3032/api/graph/calls?from=<symbolId>&workspace=<wsId>'
+curl 'http://localhost:3033/api/graph/calls?from=<symbolId>&workspace=<wsId>'
 ```
 
 #### Trace Incoming Calls (what calls X?)
 ```bash
-curl 'http://localhost:3032/api/graph/callers?to=<symbolId>&workspace=<wsId>'
+curl 'http://localhost:3033/api/graph/callers?to=<symbolId>&workspace=<wsId>'
 ```
 
 ---
@@ -118,7 +118,7 @@ curl 'http://localhost:3032/api/graph/callers?to=<symbolId>&workspace=<wsId>'
 
 #### Generate AST Slice
 ```bash
-curl 'http://localhost:3032/api/ast/slice?id=<symbolId>&depth=<1-2>&fanout=<n>&workspace=<wsId>'
+curl 'http://localhost:3033/api/ast/slice?id=<symbolId>&depth=<1-2>&fanout=<n>&workspace=<wsId>'
 ```
 
 Parameters:
@@ -134,7 +134,7 @@ Returns: nodes and edges representing the code slice graph
 
 #### Unified Query Endpoint (POST)
 ```bash
-curl -X POST 'http://localhost:3032/api/query' \
+curl -X POST 'http://localhost:3033/api/query' \
   -H 'Content-Type: application/json' \
   -d '{
     "method": "search",
@@ -152,7 +152,7 @@ Supported methods:
 
 #### Natural Language Query (POST)
 ```bash
-curl -X POST 'http://localhost:3032/api/ask' \
+curl -X POST 'http://localhost:3033/api/ask' \
   -H 'Content-Type: application/json' \
   -d '{
     "intent": "find all classes that handle authentication",
@@ -165,7 +165,7 @@ curl -X POST 'http://localhost:3032/api/ask' \
 
 #### Manual Index Update (POST)
 ```bash
-curl -X POST 'http://localhost:3032/api/index/update' \
+curl -X POST 'http://localhost:3033/api/index/update' \
   -H 'Content-Type: application/json' \
   -d '{"workspace": "<wsId>"}'
 ```
@@ -188,28 +188,28 @@ curl -X POST 'http://localhost:3032/api/index/update' \
 
 ### Find All Classes
 ```bash
-curl -s 'http://localhost:3032/api/search?q=Service&workspace=<wsId>' | \
+curl -s 'http://localhost:3033/api/search?q=Service&workspace=<wsId>' | \
   jq '.data[] | select(.type == 5) | {name, file}'
 ```
 
 ### Trace a Function's Callers
 ```bash
 # First, find the symbol
-SYMBOL=$(curl -s 'http://localhost:3032/api/search?q=handleRequest&workspace=<wsId>' | jq -r '.data[0].symbolId')
+SYMBOL=$(curl -s 'http://localhost:3033/api/search?q=handleRequest&workspace=<wsId>' | jq -r '.data[0].symbolId')
 
 # Then, find who calls it
-curl -s "http://localhost:3032/api/graph/callers?to=${SYMBOL}&workspace=<wsId>"
+curl -s "http://localhost:3033/api/graph/callers?to=${SYMBOL}&workspace=<wsId>"
 ```
 
 ### Analyze Import Dependencies
 ```bash
-curl -s 'http://localhost:3032/api/graph/deps?file=src/main/index.ts&workspace=<wsId>' | \
+curl -s 'http://localhost:3033/api/graph/deps?file=src/main/index.ts&workspace=<wsId>' | \
   jq '.data.imports'
 ```
 
 ### Use Natural Language for Complex Queries
 ```bash
-curl -s -X POST 'http://localhost:3032/api/ask' \
+curl -s -X POST 'http://localhost:3033/api/ask' \
   -H 'Content-Type: application/json' \
   -d '{"intent":"show me all React components that use useState","workspace":"<wsId>"}' | jq
 ```
@@ -253,5 +253,5 @@ The API is standard REST + JSON. Any HTTP client works.
 
 ---
 
-**API Base**: `http://localhost:3032`
+**API Base**: `http://localhost:3033`
 **Documentation**: https://termdock.com/docs/ast-api

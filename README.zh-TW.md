@@ -110,7 +110,7 @@ Termdock 是一個**以終端為中心的 AI 開發環境**，將 AI CLI 工具�
 - 大量內容貼上與壓縮記錄
 - AI 生成 commit 訊息（BYOK）
 - **Claude Code Skills** - 從設定安裝 Skills，教導 Claude Code 如何使用 Termdock 功能：
-  - **AST API Skill** - 透過 REST API 查詢程式碼結構、搜尋符號、分析相依性
+  - **Termdock AST Skill** - 透過 REST API 查詢程式碼結構、搜尋符號、分析相依性
 
 ### Git 與檔案管理
 - 完整 Git 整合與視覺化分支管理

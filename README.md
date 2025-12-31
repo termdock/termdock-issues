@@ -110,7 +110,7 @@ Termdock is a **terminal-centric AI development environment** that unifies AI CL
 - Large context paste with compression logging
 - AI-generated commit messages (BYOK)
 - **Claude Code Skills** - Install skills from Settings to teach Claude Code how to use Termdock features:
-  - **AST API Skill** - Query codebase structure, find symbols, analyze dependencies via REST API
+  - **Termdock AST Skill** - Query codebase structure, find symbols, analyze dependencies via REST API
 
 ### Git & File Management
 - Complete Git integration with visual branch management

@@ -1,0 +1,1511 @@
+{
+	"info": {
+		"_postman_id": "e8d270f1-b060-4775-bb94-dc7d0f208282",
+		"name": "AST API v2 - Complete Collection Copy",
+		"description": "Termdock AST API v2 完整測試集合，支援 workspace 管理和符號查詢",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23323752",
+		"_collection_link": "https://ingrelens.postman.co/workspace/Termdock~cc4949a0-86ea-48ff-9616-3a9356717496/collection/23323752-e8d270f1-b060-4775-bb94-dc7d0f208282?action=share&source=collection_link&creator=23323752"
+	},
+	"item": [
+		{
+			"name": "1. Health & Setup",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Workspace Management",
+			"item": [
+				{
+					"name": "Get All Workspaces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 驗證回應狀態",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// 解析回應",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Response has workspaces\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('workspaces');",
+									"    pm.expect(response.data.workspaces).to.be.an('array');",
+									"});",
+									"",
+									"// 自動設置第一個 active workspace 為當前 workspace",
+									"if (response.data && response.data.workspaces && response.data.workspaces.length > 0) {",
+									"    // 優先選擇 active workspace",
+									"    let activeWorkspace = response.data.workspaces.find(ws => ws.type === 'active');",
+									"    ",
+									"    // 如果沒有 active，選擇第一個 available",
+									"    if (!activeWorkspace) {",
+									"        activeWorkspace = response.data.workspaces.find(ws => ws.type === 'available');",
+									"    }",
+									"    ",
+									"    // 如果還是沒有，選擇第一個",
+									"    if (!activeWorkspace) {",
+									"        activeWorkspace = response.data.workspaces[0];",
+									"    }",
+									"    ",
+									"    if (activeWorkspace) {",
+									"        pm.collectionVariables.set('workspaceId', activeWorkspace.id);",
+									"        console.log('已設置當前 workspace:', activeWorkspace.id, activeWorkspace.name || activeWorkspace.id);",
+									"        ",
+									"        // 輸出 workspace 資訊",
+									"        console.log('Workspace 詳情:', {",
+									"            id: activeWorkspace.id,",
+									"            name: activeWorkspace.name,",
+									"            type: activeWorkspace.type,",
+									"            status: activeWorkspace.status,",
+									"            indexSize: activeWorkspace.indexSize",
+									"        });",
+									"    }",
+									"}",
+									"",
+									"// 顯示統計",
+									"pm.test(\"Display workspace statistics\", function () {",
+									"    console.log(`總共 ${response.data.total} 個 workspace`);",
+									"    console.log(`活躍: ${response.data.active}, 可用: ${response.data.available}`);",
+									"    console.log(`當前 workspace: ${response.data.currentWorkspace}`);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/workspaces",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 驗證回應狀態",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// 解析回應",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Response has workspace details\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('id');",
+									"    pm.expect(response.data).to.have.property('name');",
+									"    pm.expect(response.data).to.have.property('type');",
+									"    pm.expect(response.data).to.have.property('projectRoot');",
+									"});",
+									"",
+									"// 顯示 workspace 詳細資訊",
+									"if (response.data) {",
+									"    console.log('Workspace 詳細資訊:');",
+									"    console.log('- ID:', response.data.id);",
+									"    console.log('- Name:', response.data.name);",
+									"    console.log('- Type:', response.data.type);",
+									"    console.log('- Status:', response.data.status);",
+									"    console.log('- Project Root:', response.data.projectRoot);",
+									"    console.log('- Index Size:', response.data.indexSize);",
+									"    console.log('- Last Update:', response.data.lastUpdate);",
+									"    ",
+									"    if (response.data.statistics) {",
+									"        console.log('\\n統計資訊:');",
+									"        console.log('- Total Symbols:', response.data.statistics.index?.totalSymbols);",
+									"        console.log('- Total Files:', response.data.statistics.index?.totalFiles);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// 確保有 workspaceId",
+									"const workspaceId = pm.collectionVariables.get('workspaceId');",
+									"if (!workspaceId) {",
+									"    console.log('警告: workspaceId 未設置，使用 default');",
+									"    pm.collectionVariables.set('workspaceId', 'default');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/workspaces/{{workspaceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"workspaces",
+								"{{workspaceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Index for Workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Index update successful\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('symbolsIndexed');",
+									"});",
+									"",
+									"console.log('索引更新結果:');",
+									"console.log('- 索引符號數:', response.data?.symbolsIndexed);",
+									"console.log('- 處理時間:', response.data?.processingTime, 'ms');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"workspaceId\": \"{{workspaceId}}\",\n  \"incremental\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/index/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"index",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Symbol Search",
+			"item": [
+				{
+					"name": "Search Symbols in Workspace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Search results returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('symbols');",
+									"    pm.expect(response.data.symbols).to.be.an('array');",
+									"});",
+									"",
+									"// 保存第一個符號 ID 供後續測試使用",
+									"if (response.data && response.data.symbols && response.data.symbols.length > 0) {",
+									"    const firstSymbol = response.data.symbols[0];",
+									"    pm.collectionVariables.set('symbolId', firstSymbol.id);",
+									"    console.log('已保存符號 ID:', firstSymbol.id);",
+									"    console.log('符號名稱:', firstSymbol.name);",
+									"}",
+									"",
+									"console.log(`找到 ${response.data.symbols.length} 個符號`);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/search?q=Service&workspace={{workspaceId}}&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Service",
+									"description": "搜尋關鍵字"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}",
+									"description": "指定 workspace"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "結果數量限制"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Symbol Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Symbol details returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('symbol');",
+									"});",
+									"",
+									"if (response.data && response.data.symbol) {",
+									"    console.log('符號詳情:');",
+									"    console.log('- Name:', response.data.symbol.name);",
+									"    console.log('- Type:', response.data.symbol.type);",
+									"    console.log('- File:', response.data.symbol.filePath);",
+									"    console.log('- Line:', response.data.symbol.line);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// 確保有 symbolId",
+									"const symbolId = pm.collectionVariables.get('symbolId');",
+									"if (!symbolId) {",
+									"    console.log('警告: symbolId 未設置，請先執行 Search Symbols');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/symbols/{{symbolId}}?workspace={{workspaceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"symbols",
+								"{{symbolId}}"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Advanced Queries",
+			"item": [
+				{
+					"name": "Unified Query - Find Functions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"findSymbols\",\n  \"params\": {\n    \"query\": \"function\",\n    \"type\": \"function\",\n    \"limit\": 20\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\",\n    \"includeRelations\": true\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Call Graph",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/graph/calls?from={{symbolId}}&workspace={{workspaceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"graph",
+								"calls"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "{{symbolId}}"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "depth",
+									"value": "0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Callers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/graph/callers?to={{symbolId}}&workspace={{workspaceId}}&depth=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"graph",
+								"callers"
+							],
+							"query": [
+								{
+									"key": "to",
+									"value": "{{symbolId}}"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "depth",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Dependencies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/graph/deps?file=/src/main/services/ast-api-v2/index.ts&workspace={{workspaceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"graph",
+								"deps"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": "/src/main/services/ast-api-v2/index.ts"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Importers (Reverse Dependency)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/graph/importers?file=src/main/services/ast-api-v2/index.ts&workspace={{workspaceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"graph",
+								"importers"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": "src/main/services/ast-api-v2/index.ts"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Callers Query",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"symbolIds\": [\"{{symbolId}}\"],\n  \"workspace\": \"{{workspaceId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/graph/callers/batch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"graph",
+								"callers",
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Impact Analysis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/impact?symbolId={{symbolId}}&depth=2&workspace={{workspaceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"impact"
+							],
+							"query": [
+								{
+									"key": "symbolId",
+									"value": "{{symbolId}}"
+								},
+								{
+									"key": "depth",
+									"value": "2"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get AST Slice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"AST slice returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('slice');",
+									"});",
+									"",
+									"if (response.data && response.data.slice) {",
+									"    console.log('AST 切片結果:');",
+									"    console.log('- 符號數:', response.data.slice.symbols?.length || 0);",
+									"    console.log('- 關係數:', response.data.slice.relations?.length || 0);",
+									"    console.log('- 根符號:', response.data.slice.rootSymbols);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ast/slice?id={{symbolId}}&workspace={{workspaceId}}&depth=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ast",
+								"slice"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{symbolId}}"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "depth",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Code Analysis",
+			"item": [
+				{
+					"name": "Analyze Code Structure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Analysis results returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('analysis');",
+									"});",
+									"",
+									"if (response.data && response.data.analysis) {",
+									"    const analysis = response.data.analysis;",
+									"    console.log('代碼分析結果:');",
+									"    console.log('- 類型:', analysis.type);",
+									"    console.log('- 摘要:', analysis.data?.summary);",
+									"    console.log('- 指標:', JSON.stringify(analysis.data?.metrics, null, 2));",
+									"    console.log('- 符號數:', analysis.symbols?.length || 0);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"analyze\",\n  \"params\": {\n    \"filters\": {\n      \"files\": [\"src/main/services/ast-api-v2/core/UnifiedASTService.ts\"]\n    },\n    \"include\": [\"DocumentSymbols\", \"CallGraph\"]\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Symbol Relations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Relations returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('relations');",
+									"});",
+									"",
+									"if (response.data && response.data.relations) {",
+									"    console.log('符號關係結果:');",
+									"    console.log('- 關係數:', response.data.relations.length);",
+									"    console.log('- 符號數:', response.data.symbols?.length || 0);",
+									"    ",
+									"    response.data.relations.forEach((rel, i) => {",
+									"        if (i < 3) { // 只顯示前3個",
+									"            console.log(`  關係 ${i+1}: ${rel.type} (${rel.from} -> ${rel.to})`);",
+									"        }",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"relations\",\n  \"params\": {\n    \"symbolIds\": [\"{{symbolId}}\"],\n    \"types\": [\"calls\", \"references\"]\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\",\n    \"depth\": 2\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Code Slice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Code slice generated\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('slice');",
+									"});",
+									"",
+									"if (response.data && response.data.slice) {",
+									"    const slice = response.data.slice;",
+									"    console.log('代碼切片生成結果:');",
+									"    console.log('- 根符號數:', slice.rootSymbols?.length || 0);",
+									"    console.log('- 包含符號數:', slice.symbols?.length || 0);",
+									"    console.log('- 關係數:', slice.relations?.length || 0);",
+									"    console.log('- 深度:', slice.metadata?.depth);",
+									"    console.log('- 完整性:', slice.metadata?.completeness);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"slice\",\n  \"params\": {\n    \"rootSymbolIds\": [\"{{symbolId}}\"],\n    \"depth\": 2,\n    \"includeRelations\": true\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Search & Filtering",
+			"item": [
+				{
+					"name": "Advanced Symbol Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Search results with filters\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('symbols');",
+									"});",
+									"",
+									"if (response.data && response.data.symbols) {",
+									"    console.log('高級搜尋結果:');",
+									"    console.log('- 符號總數:', response.data.symbols.length);",
+									"    console.log('- 搜尋查詢:', response.metadata?.query);",
+									"    console.log('- 過濾器:', JSON.stringify(response.metadata?.filters));",
+									"    ",
+									"    // 顯示符號類型分布",
+									"    const typeCount = {};",
+									"    response.data.symbols.forEach(symbol => {",
+									"        const kind = symbol.kind || 'unknown';",
+									"        typeCount[kind] = (typeCount[kind] || 0) + 1;",
+									"    });",
+									"    console.log('- 類型分布:', typeCount);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"symbols\",\n  \"params\": {\n    \"query\": \"Service\",\n    \"filters\": {\n      \"kind\": [\"class\", \"interface\"],\n      \"visibility\": \"public\",\n      \"files\": [\"**/*.ts\"]\n    },\n    \"maxResults\": 20,\n    \"sortBy\": \"relevance\"\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/search?q=UnifiedASTService&workspace={{workspaceId}}&file=**/core/**&kind=class&limit=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "UnifiedASTService"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "file",
+									"value": "**/core/**",
+									"description": "文件路徑模式"
+								},
+								{
+									"key": "kind",
+									"value": "class",
+									"description": "符號類型過濾"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fuzzy Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/search?q=UnfdAST&workspace={{workspaceId}}&fuzzy=true&threshold=0.6&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "UnfdAST",
+									"description": "模糊查詢關鍵字 (故意拼錯)"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "fuzzy",
+									"value": "true",
+									"description": "啟用模糊匹配"
+								},
+								{
+									"key": "threshold",
+									"value": "0.6",
+									"description": "模糊匹配閾值 (0-1)"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Statistics & Monitoring",
+			"item": [
+				{
+					"name": "Get Service Statistics",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Statistics returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('statistics');",
+									"});",
+									"",
+									"if (response.data && response.data.statistics) {",
+									"    const stats = response.data.statistics;",
+									"    console.log('服務統計:');",
+									"    console.log('- 查詢次數:', stats.service?.queryCount);",
+									"    console.log('- 平均查詢時間:', stats.service?.avgQueryTime, 'ms');",
+									"    console.log('- 索引大小:', stats.index?.totalSymbols, '符號');",
+									"    console.log('- 緩存命中率:', stats.cache?.hitRate);",
+									"    console.log('- 活躍工作空間:', stats.workspaces?.active);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"stats\",\n  \"params\": {\n    \"include\": [\"service\", \"index\", \"cache\", \"workspaces\"]\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Performance Metrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/metrics?workspace={{workspaceId}}&period=1h",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"metrics"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "period",
+									"value": "1h",
+									"description": "時間範圍：5m, 15m, 1h, 24h"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Error Handling & Edge Cases",
+			"item": [
+				{
+					"name": "Invalid Workspace Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404 or 400\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Error response format\", function () {",
+									"    pm.expect(response.success).to.be.false;",
+									"    pm.expect(response.error).to.exist;",
+									"    pm.expect(response.error).to.have.property('code');",
+									"    pm.expect(response.error).to.have.property('message');",
+									"});",
+									"",
+									"console.log('錯誤處理測試:');",
+									"console.log('- 錯誤代碼:', response.error?.code);",
+									"console.log('- 錯誤訊息:', response.error?.message);",
+									"console.log('- 狀態碼:', pm.response.code);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/workspaces/invalid-workspace-id-12345",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"workspaces",
+								"invalid-workspace-id-12345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Malformed Query Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Validation error returned\", function () {",
+									"    pm.expect(response.success).to.be.false;",
+									"    pm.expect(response.error.code).to.include('VALIDATION');",
+									"});",
+									"",
+									"console.log('驗證錯誤測試:');",
+									"console.log('- 錯誤類型:', response.error?.code);",
+									"console.log('- 詳細信息:', response.error?.details);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"invalid_method\",\n  \"params\": null,\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rate Limit Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 這個測試需要多次快速請求來觸發速率限制",
+									"// 在正常情況下應該返回 200，速率限制時返回 429",
+									"",
+									"pm.test(\"Response is valid\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 429]);",
+									"});",
+									"",
+									"if (pm.response.code === 429) {",
+									"    console.log('觸發速率限制 - 正常行為');",
+									"    const response = pm.response.json();",
+									"    console.log('重試時間:', response.error?.details?.retryAfter, '秒');",
+									"} else {",
+									"    console.log('請求正常通過');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "9. Test Scenarios",
+			"item": [
+				{
+					"name": "Complete Workflow Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 這是一個完整的工作流程測試",
+									"// 1. 獲取 workspace",
+									"// 2. 更新索引",
+									"// 3. 搜尋符號",
+									"// 4. 獲取符號詳情",
+									"",
+									"console.log('執行完整工作流程測試...');",
+									"console.log('Current workspace:', pm.collectionVariables.get('workspaceId'));",
+									"console.log('Current symbol:', pm.collectionVariables.get('symbolId'));",
+									"",
+									"pm.test(\"Workflow variables are set\", function () {",
+									"    const workspaceId = pm.collectionVariables.get('workspaceId');",
+									"    const symbolId = pm.collectionVariables.get('symbolId');",
+									"    ",
+									"    pm.expect(workspaceId).to.not.be.empty;",
+									"    pm.expect(symbolId).to.not.be.empty;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"health"
+							]
+						},
+						"description": "驗證完整工作流程的變數設置"
+					},
+					"response": []
+				},
+				{
+					"name": "LLM Tool Integration Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 模擬 LLM 工具調用的完整流程",
+									"console.log('=== LLM 工具集成測試 ===');",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"LLM tool response format\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.exist;",
+									"    pm.expect(response.metadata).to.exist;",
+									"});",
+									"",
+									"// 驗證 LLM 工具所需的響應格式",
+									"console.log('LLM 工具兼容性檢查:');",
+									"console.log('✓ success 字段:', response.success);",
+									"console.log('✓ data 結構:', Object.keys(response.data || {}));",
+									"console.log('✓ metadata 字段:', Object.keys(response.metadata || {}));",
+									"",
+									"// 保存響應樣本供 LLM 工具參考",
+									"pm.collectionVariables.set('llmSampleResponse', JSON.stringify(response, null, 2));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"symbols\",\n  \"params\": {\n    \"query\": \"UnifiedASTService\",\n    \"filters\": {\n      \"kind\": [\"class\"]\n    },\n    \"maxResults\": 5\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\",\n    \"requestId\": \"llm_tool_test_001\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stress Test - Multiple Queries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 壓力測試：快速連續查詢",
+									"console.log('=== 壓力測試 ===');",
+									"",
+									"pm.test(\"Handles stress well\", function () {",
+									"    // 接受 200 (正常) 或 429 (速率限制)",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 429]);",
+									"});",
+									"",
+									"const responseTime = pm.response.responseTime;",
+									"console.log(`響應時間: ${responseTime}ms`);",
+									"",
+									"// 記錄性能指標",
+									"const currentCount = pm.collectionVariables.get('stressTestCount') || 0;",
+									"const totalTime = pm.collectionVariables.get('stressTestTime') || 0;",
+									"",
+									"pm.collectionVariables.set('stressTestCount', parseInt(currentCount) + 1);",
+									"pm.collectionVariables.set('stressTestTime', parseInt(totalTime) + responseTime);",
+									"",
+									"const avgTime = (parseInt(totalTime) + responseTime) / (parseInt(currentCount) + 1);",
+									"console.log(`平均響應時間: ${avgTime.toFixed(2)}ms`);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/search?q=test&workspace={{workspaceId}}&limit=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "test"
+								},
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "10. Batch Operations",
+			"item": [
+				{
+					"name": "Batch Symbol Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"pm.test(\"Batch results returned\", function () {",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.data).to.have.property('results');",
+									"    pm.expect(response.data.results).to.be.an('array');",
+									"});",
+									"",
+									"console.log('批量查詢結果:');",
+									"console.log('- 查詢數量:', response.data?.results?.length || 0);",
+									"console.log('- 總處理時間:', response.metadata?.processingTime, 'ms');",
+									"",
+									"// 顯示每個查詢的結果",
+									"(response.data?.results || []).forEach((result, i) => {",
+									"    console.log(`  查詢 ${i+1}: ${result.success ? '成功' : '失敗'} - ${result.data?.symbols?.length || 0} 個符號`);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"batch\": true,\n  \"queries\": [\n    {\n      \"method\": \"symbols\",\n      \"params\": {\n        \"query\": \"Service\",\n        \"maxResults\": 5\n      }\n    },\n    {\n      \"method\": \"symbols\", \n      \"params\": {\n        \"query\": \"Handler\",\n        \"maxResults\": 5\n      }\n    },\n    {\n      \"method\": \"symbols\",\n      \"params\": {\n        \"query\": \"Manager\",\n        \"maxResults\": 5\n      }\n    }\n  ],\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Analysis Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"analyze\",\n  \"params\": {\n    \"filters\": {\n      \"files\": [\n        \"src/main/services/ast-api-v2/core/UnifiedASTService.ts\",\n        \"src/main/services/ast-api-v2/integration/ASTEngineAdapter.ts\",\n        \"src/main/services/ast-api-v2/http/ASTAPIServer.ts\"\n      ]\n    },\n    \"include\": [\"DocumentSymbols\"],\n    \"parallel\": true\n  },\n  \"context\": {\n    \"workspaceId\": \"{{workspaceId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"query"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3032",
+			"type": "string",
+			"description": "Development: 3032, Production: 3033"
+		},
+		{
+			"key": "workspaceId",
+			"value": "",
+			"type": "string",
+			"description": "當前活躍的 workspace ID，由 Get Workspaces 自動設置"
+		},
+		{
+			"key": "symbolId",
+			"value": "",
+			"type": "string",
+			"description": "測試用的符號 ID"
+		},
+		{
+			"key": "llmSampleResponse",
+			"value": ""
+		}
+	]
+}

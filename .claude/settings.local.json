@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/skills/recall-termdock-issues-dc11/recall-recent.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

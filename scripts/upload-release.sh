@@ -87,22 +87,25 @@ else
     gh release create "$VERSION" \
         --title "TermDock $VERSION" \
         --draft \
-        --notes "## Downloads (macOS Only)
+        --notes "## Downloads
 
 ### macOS
 - **Termdock-${VERSION_NUM}.dmg** - Intel Mac installer
-- **Termdock-${VERSION_NUM}-arm64.dmg** - Apple Silicon (M1/M2/M3) installer
+- **Termdock-${VERSION_NUM}-arm64.dmg** - Apple Silicon installer
 
-### 💡 Other Platforms
-Windows and Linux versions are planned for future releases. Stay tuned!
+### Windows
+- **Termdock.Setup.${VERSION_NUM}.exe** - Windows installer
+
+### Linux
+Linux version is not available yet.
 
 ## What's New
 Please check the [Issues](https://github.com/termdock/Termdock-issues/issues) page for resolved issues in this release.
 
 ## Installation Instructions
-1. Download the appropriate DMG file for your Mac
-2. Open the DMG and drag Termdock to Applications folder
-3. First launch may require allowing the app in System Preferences > Security & Privacy
+1. Download the installer for your platform
+2. On macOS, open the DMG and drag Termdock to Applications folder
+3. On macOS, first launch may require allowing the app in System Preferences > Security & Privacy
 
 ## Report Issues
 Found a bug? Please report it in our [Issues](https://github.com/termdock/Termdock-issues/issues) section."

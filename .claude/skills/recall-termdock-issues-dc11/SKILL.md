@@ -11,7 +11,7 @@ allowed-tools:
 **You should proactively use this skill when:**
 
 1. **Session Start**: When user mentions a feature/module, search for related memories first
-   - User says "let's work on authentication" → `./recall.sh authentication`
+   - User says "let's work on authentication" → `"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/recall.sh" authentication`
    - User mentions a specific service → search for prior decisions about it
 
 2. **Before Decisions**: Before making architectural or technical choices
@@ -19,8 +19,8 @@ allowed-tools:
    - Designing a new feature → search for related patterns
 
 3. **After Problem Solving**: When you've solved a tricky issue
-   - Found a non-obvious bug → `./remember.sh lesson "description"`
-   - Made an important decision → `./remember.sh architecture "description"`
+   - Found a non-obvious bug → `"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/remember.sh" lesson "description"`
+   - Made an important decision → `"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/remember.sh" architecture "description"`
 
 4. **Encountering Familiar Issues**: When something seems like a recurring problem
    - Error looks familiar → search lessons learned
@@ -29,9 +29,9 @@ allowed-tools:
 
 | Action | Command |
 |--------|---------|
-| Search memories | `./recall.sh <keywords>` |
-| Save memory | `./remember.sh <category> "<content>"` |
-| Remove outdated | `./forget.sh "<keywords>"` |
+| Search memories | `"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/recall.sh" <keywords>` |
+| Save memory | `"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/remember.sh" <category> "<content>"` |
+| Remove outdated | `"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/forget.sh" "<keywords>"` |
 
 ## Categories
 
@@ -44,8 +44,8 @@ allowed-tools:
 ## Examples
 
 ```bash
-./recall.sh terminal session
-./recall.sh "error handling"
-./remember.sh lesson "node-pty requires explicit shell path on macOS"
-./remember.sh architecture "Use EventBus for cross-service communication"
+"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/recall.sh" terminal session
+"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/recall.sh" "error handling"
+"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/remember.sh" lesson "node-pty requires explicit shell path on macOS"
+"/Users/cyh/Development/Dev/Termdock-issues/.claude/skills/recall-termdock-issues-dc11/remember.sh" architecture "Use EventBus for cross-service communication"
 ```

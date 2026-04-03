@@ -1,0 +1,641 @@
+{
+	"info": {
+		"name": "Terminal API - Complete Collection",
+		"description": "Termdock Terminal API 完整測試集合，供 AI agent 建立、操控與監聽終端 session",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{apiToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "1. Workspaces",
+			"item": [
+				{
+					"name": "List Workspaces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const res = pm.response.json();",
+									"pm.test('Has workspaces array', function () {",
+									"    pm.expect(res.success).to.be.true;",
+									"    pm.expect(res.data).to.have.property('workspaces');",
+									"});",
+									"if (res.data && res.data.workspaces && res.data.workspaces.length > 0) {",
+									"    const ws = res.data.workspaces.find(w => w.type === 'active') || res.data.workspaces[0];",
+									"    pm.collectionVariables.set('workspaceId', ws.id);",
+									"    console.log('Set workspaceId:', ws.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/workspaces",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "workspaces"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Session Lifecycle",
+			"item": [
+				{
+					"name": "Create Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const res = pm.response.json();",
+									"pm.test('Session created', function () {",
+									"    pm.expect(res.success).to.be.true;",
+									"    pm.expect(res.data).to.have.property('sessionId');",
+									"});",
+									"if (res.data && res.data.sessionId) {",
+									"    pm.collectionVariables.set('sessionId', res.data.sessionId);",
+									"    console.log('Set sessionId:', res.data.sessionId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"workspaceId\": \"{{workspaceId}}\",\n    \"logPolicy\": \"persist\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "status"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Input & Output",
+			"item": [
+				{
+					"name": "Send Input (JSON)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": \"echo hello world\",\n    \"appendEnter\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/input",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "input"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Input (Plain Text)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "ls -la"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/input?appendEnter=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "input"],
+							"query": [
+								{
+									"key": "appendEnter",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Output (text mode)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"if (res.data && res.data.cursor !== undefined) {",
+									"    pm.collectionVariables.set('outputCursor', String(res.data.cursor));",
+									"    console.log('Set outputCursor:', res.data.cursor);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/output?mode=text&lines=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "output"],
+							"query": [
+								{
+									"key": "mode",
+									"value": "text"
+								},
+								{
+									"key": "lines",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Output (raw mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/output?mode=raw&lines=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "output"],
+							"query": [
+								{
+									"key": "mode",
+									"value": "raw"
+								},
+								{
+									"key": "lines",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Output (content mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/output?mode=content&lines=50&chromeProfile=claude-code",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "output"],
+							"query": [
+								{
+									"key": "mode",
+									"value": "content"
+								},
+								{
+									"key": "lines",
+									"value": "50"
+								},
+								{
+									"key": "chromeProfile",
+									"value": "claude-code"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Output (incremental, since cursor)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/output?mode=text&since={{outputCursor}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "output"],
+							"query": [
+								{
+									"key": "mode",
+									"value": "text"
+								},
+								{
+									"key": "since",
+									"value": "{{outputCursor}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Output (long-poll, wait for change)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/output?mode=text&since={{outputCursor}}&waitForChange=true&timeoutMs=5000",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "output"],
+							"query": [
+								{
+									"key": "mode",
+									"value": "text"
+								},
+								{
+									"key": "since",
+									"value": "{{outputCursor}}"
+								},
+								{
+									"key": "waitForChange",
+									"value": "true"
+								},
+								{
+									"key": "timeoutMs",
+									"value": "5000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session Log",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/log",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "log"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Special Keys",
+			"item": [
+				{
+					"name": "Send Key - Enter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"enter\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/keys",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "keys"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Key - Ctrl+C",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"ctrl+c\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/keys",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "keys"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Key - Tab",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"tab\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/keys",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "keys"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Key - Arrow Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"up\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/keys",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "keys"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Key - Escape",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"esc\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{sessionId}}/keys",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{sessionId}}", "keys"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Agent Workflow (E2E)",
+			"item": [
+				{
+					"name": "Step 1 - Create Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"pm.test('Session created', function () {",
+									"    pm.expect(res.success).to.be.true;",
+									"});",
+									"if (res.data && res.data.sessionId) {",
+									"    pm.collectionVariables.set('e2eSessionId', res.data.sessionId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"workspaceId\": \"{{workspaceId}}\",\n    \"logPolicy\": \"persist\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 2 - Wait for Ready",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"pm.test('Session is ready', function () {",
+									"    pm.expect(res.data.ready).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{e2eSessionId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{e2eSessionId}}", "status"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 3 - Send Command",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": \"echo 'Terminal API works!'\",\n    \"appendEnter\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{e2eSessionId}}/input",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{e2eSessionId}}", "input"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 4 - Poll Output",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"pm.test('Output contains expected text', function () {",
+									"    const text = res.data.text || res.data.lines?.join('\\n') || '';",
+									"    pm.expect(text).to.include('Terminal API works!');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{e2eSessionId}}/output?mode=text&lines=10&waitForChange=true&timeoutMs=3000",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{e2eSessionId}}", "output"],
+							"query": [
+								{"key": "mode", "value": "text"},
+								{"key": "lines", "value": "10"},
+								{"key": "waitForChange", "value": "true"},
+								{"key": "timeoutMs", "value": "3000"}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 5 - Cleanup",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/terminal/sessions/{{e2eSessionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "terminal", "sessions", "{{e2eSessionId}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:3036",
+			"type": "string",
+			"description": "Development: 3036, Production: 3037"
+		},
+		{
+			"key": "apiToken",
+			"value": "",
+			"type": "string",
+			"description": "Bearer token from Settings > Remote Control > Terminal API"
+		},
+		{
+			"key": "workspaceId",
+			"value": "",
+			"type": "string",
+			"description": "Workspace ID, auto-set by List Workspaces"
+		},
+		{
+			"key": "sessionId",
+			"value": "",
+			"type": "string",
+			"description": "Session ID, auto-set by Create Session"
+		},
+		{
+			"key": "outputCursor",
+			"value": "0",
+			"type": "string",
+			"description": "Cursor for incremental output reads"
+		},
+		{
+			"key": "e2eSessionId",
+			"value": "",
+			"type": "string",
+			"description": "Session ID for E2E workflow test"
+		}
+	]
+}

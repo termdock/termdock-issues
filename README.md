@@ -81,7 +81,7 @@ Termdock is a **terminal-centric AI development environment** that unifies AI CL
 - Multi-tab interface with independent Shell sessions
 - Quick tab switching (Cmd+1-9)
 - Drag-and-drop tab reordering
-- Automatic session recovery
+- **Session restore** - Terminals survive app restarts
 - Split view support:
   - Horizontal split (Cmd+D)
   - Vertical split (Cmd+Shift+D)
@@ -90,8 +90,22 @@ Termdock is a **terminal-centric AI development environment** that unifies AI CL
 - Quick workspace switching (Cmd+P)
 - Terminal grouping by workspace
 
-### AST Code Analysis (BETA)
-- Tree-sitter integration supporting **13+ programming languages**:
+### Remote Terminal Control
+- **Telegram bot** - Control terminals from your phone: /ws, /new, /send, /read, /watch, /key, /snap
+- **Discord bot** - Slash commands with interactive button prompts for CLI option selection
+- **/watch** - Push notifications when background terminals produce output
+- **/snap** - Per-session or full-window screenshots
+- [Setup Guide](https://termdock.com/docs/remote-control)
+
+### Terminal API (Agent Integration)
+- Local HTTP API for AI agents to create and control terminal sessions
+- Polling-based output reading with cursor-based incremental updates
+- Output modes: text (strips ANSI), raw, content (filters TUI chrome)
+- Bearer token authentication with rate limiting
+- [API Documentation](https://termdock.com/docs/terminal-api)
+
+### AST Code Analysis
+- Tree-sitter + **LSP integration** supporting **13+ programming languages**:
   - JavaScript, TypeScript, Python, Rust, Go
   - C, C++, Java, Ruby, PHP, Swift
   - And more...
@@ -109,8 +123,10 @@ Termdock is a **terminal-centric AI development environment** that unifies AI CL
   - And any terminal-based AI tool
 - Large context paste with compression logging
 - AI-generated commit messages (BYOK)
+- **Voice input** via Whisper transcription
 - **Claude Code Skills** - Install skills from Settings to teach Claude Code how to use Termdock features:
   - **Termdock AST Skill** - Query codebase structure, find symbols, analyze dependencies via REST API
+  - **Termdock Terminal API Skill** - Agent-controlled terminal sessions
 
 ### Git & File Management
 - Complete Git integration with visual branch management
@@ -121,6 +137,7 @@ Termdock is a **terminal-centric AI development environment** that unifies AI CL
 
 ### Developer Experience
 - Dynamic theme system with custom backgrounds
+- **Discord Rich Presence** - Show Termdock activity in Discord status
 - Global hotkey support
 - Fast, native macOS performance
 - Lightweight and responsive
@@ -129,14 +146,11 @@ Termdock is a **terminal-centric AI development environment** that unifies AI CL
 
 ## What's Coming Next
 
-### In Development (v1.4.0 ～ ... )
-- **Windows Support** - Native Windows build with full terminal and AST support *(35% complete, ETA: Late November 2025)*
-
-### Planned Features
-- **Public AST API** - REST/GraphQL API for external integrations and LSP support
-- **Plan Mode with CLI** - Interactive planning mode integrated with AI CLI workflows
-- **CLI Control Interface** - Command-line interface to automate Termdock operations
-- **UI Enhancements & i18n** - Panel-based code viewer, Japanese & Korean language support
+### Planned (Q2-Q3 2026)
+- **Project Aurora** - Rust rewrite of code analysis engine for parallel file scanning and parsing
+- **Multi-Git Repository Support** - Mount multiple Git repos under a single workspace with automatic context switching
+- **Terminal API Advanced Integration** - Agent collaboration protocols, external tool query and control
+- **Default File Reader for macOS** - Open Markdown, JSON, YAML files directly from Finder
 - **Linux Support** - Native builds for Debian/Ubuntu and AppImage
 
 [View Full Roadmap](https://termdock.com/roadmap) • [Feature Requests](https://github.com/termdock/termdock-issues/discussions)
@@ -170,7 +184,7 @@ brew install --cask termdock
 
 **Platform Availability**
 - macOS (Intel & Apple Silicon)
-- Windows (Coming Soon)
+- Windows
 - Linux (Coming Soon)
 
 ---

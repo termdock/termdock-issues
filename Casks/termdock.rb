@@ -2,8 +2,8 @@ cask "termdock" do
   arch arm: "arm64", intel: "x64"
   
   version "1.8.0"
-  sha256 arm:   "aca3be1f98fee4f4b2d8bda1e7dafe18a465f57686a5eff1435b0cb5f679ceff",
-         intel: "36a1d022769ba22ecb3416231ab5ec68632d0f4dfbc568d7141676cb43b68390"
+  sha256 arm:   "8d2700979a5d2cdf82aad75aae7f922b41076e1ae53e321db32ad5db6c69a7b1",
+         intel: "169936f4c79769d151f0614f4ae81135f39f27dd6d9b4868844dfab0d22e9337"
 
   url "https://github.com/termdock/Termdock-issues/releases/download/v1.8.0/Termdock-#{version}#{arch == :intel ? "" : "-arm64"}.dmg"
   name "Termdock"

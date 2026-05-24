@@ -1,11 +1,11 @@
 cask "termdock" do
   arch arm: "arm64", intel: "x64"
   
-  version "1.10.0"
-  sha256 arm:   "f67876c5b4cdcd881baacf487ec4a5b91cf947089442e27a36a6a84bb33c8eb4",
-         intel: "54aaca3056f11d2e1b66768c425e469e4f403c34055d9d83136c055d0c33f901"
+  version "1.11.0"
+  sha256 arm:   "1bb3795334cc4037fb5656a6803601e5e70ab2345d316acf7e58be68cc973d87",
+         intel: "37b4b7cfa61ad8429c2e4f6eea4a52ea5212d0aaae47daa5aa6c6bf635d65d0a"
 
-  url "https://github.com/termdock/Termdock-issues/releases/download/v1.10.0/Termdock-#{version}#{arch == :intel ? "" : "-arm64"}.dmg"
+  url "https://github.com/termdock/Termdock-issues/releases/download/v1.11.0/Termdock-#{version}#{arch == :intel ? "" : "-arm64"}.dmg"
   name "Termdock"
   desc "AI-Powered Terminal Integration Platform"
   homepage "https://github.com/termdock/Termdock-issues"

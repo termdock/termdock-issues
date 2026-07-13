@@ -57,6 +57,11 @@ The way we build software has changed: the agent writes, you direct. Termdock is
 
 <div align="center">
 
+### Visual Git Review — New in v1.16
+*Three-pane diff review with blame, cross-file navigation, and Twin Focus token highlighting*
+
+![Termdock visual Git review — three-pane diff review with blame and Twin Focus token highlighting](termdock-git-review.png)
+
 ### Code Intelligence
 *Symbol search, call graphs, and dependency visualization across 13+ languages*
 

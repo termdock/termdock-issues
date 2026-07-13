@@ -57,6 +57,11 @@
 
 <div align="center">
 
+### 視覺化 Git Review — v1.16 新功能
+*三欄式 diff 審查含 blame、跨檔導航與 Twin Focus token 對應反白*
+
+![Termdock 視覺化 Git review — 三欄式 diff 審查含 blame 與 Twin Focus 反白](termdock-git-review.png)
+
 ### 程式碼智慧
 *13+ 種語言的符號搜尋、呼叫圖與相依性視覺化*
 

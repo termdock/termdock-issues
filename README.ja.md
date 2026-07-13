@@ -57,6 +57,11 @@
 
 <div align="center">
 
+### ビジュアル Git レビュー — v1.16 新機能
+*blame 付き 3 ペイン diff レビュー、ファイル横断ナビゲーション、Twin Focus トークンハイライト*
+
+![Termdock ビジュアル Git レビュー — blame と Twin Focus ハイライト付き 3 ペイン diff レビュー](termdock-git-review.png)
+
 ### コードインテリジェンス
 *13 以上の言語に対応したシンボル検索、コールグラフ、依存関係の可視化*
 

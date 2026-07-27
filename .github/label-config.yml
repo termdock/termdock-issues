@@ -1,0 +1,97 @@
+# Auto-label config for termdock-issues (public repo)
+# Prompt language: English (international users)
+
+model: mistral-medium-latest
+
+rate_limit_delay_ms: 1500
+
+# Internal repo to sync issues to
+sync:
+  repo: Termdock-dev/Termdock
+  prefix: "[external]"
+
+labels:
+  # === Type (pick one) ===
+  type:
+    - name: bug
+      description: Something isn't working as expected
+    - name: feature
+      description: New feature or capability request
+    - name: refactor
+      description: Restructure without changing behavior
+    - name: documentation
+      description: Documentation improvements or additions
+    - name: research
+      description: Needs investigation before a decision can be made
+    - name: question
+      description: Further information needed to proceed
+
+  # === Priority (pick one or skip) ===
+  priority:
+    - name: "priority:P0"
+      description: Critical — blocks release, must fix immediately
+      criteria: Production down, data loss, security vulnerability, blocks all development
+    - name: "priority:P1"
+      description: High — schedule soon, affects core workflows
+      criteria: Core feature broken or missing, affects most users, on the critical path
+    - name: "priority:P2"
+      description: Normal — fix when available, non-blocking
+      criteria: Enhancement, edge-case bug, non-core feature, cleanup
+
+  # === Severity (bug only, pick one or skip) ===
+  severity:
+    - name: "severity:major"
+      description: Major — incorrect behavior visible to users
+    - name: "severity:minor"
+      description: Minor — cosmetic or non-functional deviation
+
+  # === Scope (multi-select) ===
+  scope:
+    - name: "scope:terminal"
+      description: Terminal / PTY / xterm
+    - name: "scope:ai"
+      description: AI integration / agent features
+    - name: "scope:git"
+      description: Git integration
+    - name: "scope:ui"
+      description: UI components / layout / CSS
+    - name: "scope:ipc"
+      description: IPC main-renderer communication
+    - name: "scope:ast"
+      description: AST parsing and indexing
+    - name: "scope:lsp"
+      description: LSP language server integration
+    - name: "scope:context"
+      description: React Context / state management
+
+  # === Cross-cutting concerns (multi-select) ===
+  concern:
+    - name: architecture
+      description: Architecture — infrastructure, module boundaries
+    - name: api
+      description: API layer — Tool Runtime / IPC contracts
+    - name: security
+      description: Security — attack surface, permissions, data protection
+    - name: perf
+      description: Performance — speed, memory, responsiveness
+    - name: code-quality
+      description: Code quality — complexity / DRY / maintainability
+
+  # === Platform (multi-select, external repo only) ===
+  platform:
+    - name: "Mac arm64"
+      description: Specific to macOS Apple Silicon (M-series)
+    - name: "Mac x64"
+      description: Specific to macOS Intel
+    - name: "Windows"
+      description: Specific to Windows
+
+excluded:
+  - duplicate
+  - wontfix
+  - invalid
+  - pending
+  - roadmap
+  - Experimental
+  - good first issue
+  - help wanted

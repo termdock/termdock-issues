@@ -1,0 +1,59 @@
+name: Auto Label Issues
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to label (leave empty for all open issues)'
+        required: false
+        type: number
+      state:
+        description: 'Batch mode: which issues to process'
+        required: false
+        default: 'open'
+        type: choice
+        options: ['open', 'all']
+      dry_run:
+        description: 'Only print results, do not apply labels'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install yaml parser
+        run: npm install yaml
+
+      - name: Generate internal repo token
+        id: app-token
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: Termdock-dev
+          repositories: Termdock
+
+      - name: Classify and label
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          INTERNAL_REPO_TOKEN: ${{ steps.app-token.outputs.token || '' }}
+          INPUT_ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.issue.number || '' }}
+          INPUT_STATE: ${{ github.event.inputs.state || 'open' }}
+          INPUT_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: node .github/scripts/auto-label.mjs

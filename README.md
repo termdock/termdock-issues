@@ -4,7 +4,7 @@
 
 **Let AI Write the Code. You Own the View.**
 
-*An AI-native terminal for macOS & Windows — hand your work to Claude Code, Codex, Gemini, or GitLab Duo, supervise everything from one GPU-accelerated workspace, and make every pixel of the backdrop yours.*
+*An AI-native terminal for macOS & Windows — hand your work to Claude Code, Codex, Gemini, OpenCode, or GitLab Duo, supervise everything from one GPU-accelerated workspace, and make every pixel of the backdrop yours.*
 
 [![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1033858&theme=light)](https://www.producthunt.com/products/termdock)
 
@@ -28,26 +28,28 @@
 
 ## What is Termdock?
 
-The way we build software has changed: the agent writes, you direct. Termdock is a **terminal-first development environment for macOS and Windows** built around that reality — a fast, GPU-accelerated terminal emulator where **Claude Code, Codex, Gemini CLI, and GitLab Duo** run as first-class sessions, their permission requests land in an approval panel instead of scrolling past, and their output gets verified with code intelligence and visual Git review. Meanwhile, the screen you stare at all day is entirely yours: custom background images, themes, fonts, translucent chrome.
+The way we build software has changed: the agent writes, you direct. Termdock is a **terminal-first development environment for macOS and Windows** built around that reality — a fast, GPU-accelerated terminal emulator where **Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo** run as first-class sessions, their permission requests land in an approval panel instead of scrolling past, and their output gets verified with code intelligence and visual Git review. Meanwhile, the screen you stare at all day is entirely yours: custom background images, themes, fonts, translucent chrome.
 
 ### Why Termdock?
 
-- **AI-agent native** — first-class sessions for Claude Code, Codex, Gemini CLI, and GitLab Duo; agents work in the background by default and never steal your pane
+- **AI-agent native** — first-class sessions for Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo; agents work in the background by default and never steal your pane
 - **You stay in command** — permission requests, questions, and plan reviews become cards you approve or deny from a dedicated panel, even from your phone
+- **Your machines, one dock** — mount workspaces from LAN peers or any SSH-reachable server (beta) and open their terminals like local ones
 - **Verify what the AI wrote** — a framework-aware code graph, diff impact analysis, and a visual three-pane Git review with blame and Twin Focus highlighting
 - **The view is yours** — custom background images, dark/light themes, custom fonts, translucent glass chrome
 - **Fast and power-efficient** — WebGL (GPU) rendering cuts renderer CPU by ~90% under heavy output, with automatic power-saving on battery
 
 ---
 
-## ✨ New in v1.16
+## ✨ New in v1.19
 
-- **Git Review, rebuilt** — three-pane visual diff review with blame, Twin Focus token highlighting, and read-only merge / conflict review
-- **Dock parking** — drag a terminal session into the dock: hidden but alive, notifications keep piling up
-- **Drop a folder, get a workspace** — instant workspace creation by drag-and-drop
-- **A code graph that knows your framework** — Express / Fastify / Koa / FastAPI / Flask routes as first-class nodes, plus diff impact analysis for any change
-- **Native Rust indexing pipeline** — noticeably faster on large projects
-- **GitLab Duo joins the agent roster** — alongside Claude Code, Codex, and Gemini
+- **SSH Remote Workspaces (Beta)** — mount a directory on any SSH-reachable server into your workspace list; terminals feel local, brief drops reconnect automatically
+- **LAN Peer Remote** (since v1.18) — discover nearby Termdock devices, pair once, mount their workspaces, and open remote terminals over an end-to-end encrypted connection with no cloud relay
+- **Windows hosts, zero setup** — pairing with a Windows machine no longer needs manual firewall configuration; the installer handles it
+- **Hosts see everything** — watch inbound terminal sessions live from the host side, read-only
+- **Scheduled automation** (since v1.17) — cron-style scheduled prompts and idle keep-alive for agent sessions, now editable in place
+- **Light theme & surfaces overhaul** — consistent colors across light and dark, plus solid or glass dialog surfaces selectable in Settings
+- **In-app issue reporting** — the new Report menu files bugs straight from the app
 
 [Full release notes →](https://github.com/termdock/termdock-issues/releases/latest)
 
@@ -57,7 +59,7 @@ The way we build software has changed: the agent writes, you direct. Termdock is
 
 <div align="center">
 
-### Visual Git Review — New in v1.16
+### Visual Git Review
 *Three-pane diff review with blame, cross-file navigation, and Twin Focus token highlighting*
 
 ![Termdock visual Git review — three-pane diff review with blame and Twin Focus token highlighting](termdock-git-review.png)
@@ -85,7 +87,7 @@ The way we build software has changed: the agent writes, you direct. Termdock is
 
 ### Hand Off the Work
 
-Stop babysitting terminal scrollback. In Termdock, **Claude Code, Codex, Gemini CLI, and GitLab Duo** run as managed agent sessions — in the background by default, so your pane stays yours while they grind.
+Stop babysitting terminal scrollback. In Termdock, **Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo** run as managed agent sessions — in the background by default, so your pane stays yours while they grind.
 
 - **Agent Workstream** — permission requests, questions, and plan reviews are intercepted into structured cards; approve, deny, or answer from a dedicated panel. `termdock hooks setup` wires everything in one command
 - **Terminal API** — a local HTTP API for agents and scripts: create, control, and read terminal sessions (including headless ones), stream output in real time via SSE, authenticate with service tokens and rate limiting. [API Documentation](https://termdock.com/docs/terminal-api)
@@ -140,6 +142,15 @@ Drop a folder onto Termdock and you have a workspace. Tag it, and the sidebar an
 - **File previews inside panes** — Markdown, code, JSON/YAML/XML, PDF, and images open in the same grid as terminals, with the same tabs and drag-and-drop rules
 - Full-featured file explorer, fuzzy search with `*`/`?` wildcards, Markdown export to standalone HTML
 
+### Work Across Machines
+
+Your projects don't all live on one computer. Termdock mounts remote workspaces next to local ones — same grid, same tabs, same shortcuts.
+
+- **LAN Peer Remote** — devices on the same network discover each other automatically; pair once, stay trusted, and mount shared workspaces over an end-to-end encrypted channel with no cloud relay
+- **SSH Remote Workspaces (Beta)** — enter an address, sign in, and work on any SSH-reachable server; terminal-first today, with remote file and Git panels on the way
+- **Self-healing connections** — brief drops and host restarts reconnect automatically, and interrupted sessions are kept alive for a recovery window
+- **Host stays in control** — sharing is off until enabled in Settings, unsafe roots are rejected, and inbound sessions are visible and individually terminable
+
 ### Supervise From Your Pocket
 
 The agent doesn't stop when you leave the desk — and neither does your oversight. Control terminals remotely from **Telegram or Discord**: send input, read output, get notified when background terminals produce output (/watch), and grab screenshots (/snap). [Setup Guide](https://termdock.com/docs/remote-control)
@@ -148,15 +159,14 @@ The agent doesn't stop when you leave the desk — and neither does your oversig
 
 ## What's Coming Next
 
-### v1.17 — Agent Ecosystem (in progress)
+### v1.19 stable → v1.20
 
-- **OpenCode integration** — OpenCode joins Claude Code, Codex, and Gemini as the fourth agent session provider, with HTTP + SSE daemon client and interactive terminal sessions
-- **ACP / AI API provider options** — expanded provider configuration
+- **SSH remote hardening** — closing the gap from beta to stable
+- **Remote File and Git panels** — browse files and review Git on mounted remote workspaces, not just terminals
 
-### Beyond (v1.18+)
+### Beyond
 
-- **Remote / browser access** — reach your terminals from outside the desktop app
-- **Multi-Git repository workspaces** — mount multiple repos under a single workspace
+- **Browser access** — reach your terminals from outside the desktop app
 - **Windows native Rust PTY**
 - **Linux support**
 

@@ -4,7 +4,7 @@
 
 **程式碼交給 AI 寫，畫面由你作主。**
 
-*macOS 與 Windows 的 AI 原生終端機 — 工作交給 Claude Code、Codex、Gemini 或 GitLab Duo，在一個 GPU 加速的工作區裡監工一切，而背景的每個像素都是你的。*
+*macOS 與 Windows 的 AI 原生終端機 — 工作交給 Claude Code、Codex、Gemini、OpenCode 或 GitLab Duo，在一個 GPU 加速的工作區裡監工一切，而背景的每個像素都是你的。*
 
 [![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1033858&theme=light)](https://www.producthunt.com/products/termdock)
 
@@ -28,11 +28,12 @@
 
 ## 什麼是 Termdock？
 
-寫軟體的方式變了：agent 動手，你下指令。Termdock 是為這個現實打造的**終端機優先開發環境**（支援 macOS 與 Windows）— 一個快速、GPU 加速的終端模擬器，**Claude Code、Codex、Gemini CLI、GitLab Duo** 以一等 session 執行，權限請求進到專屬審核面板，而不是淹沒在捲動的輸出裡，寫出來的東西用程式碼智慧與視覺化 Git review 驗收。至於你一整天盯著的畫面，完全歸你：自訂背景圖、主題、字型、半透明外框。
+寫軟體的方式變了：agent 動手，你下指令。Termdock 是為這個現實打造的**終端機優先開發環境**（支援 macOS 與 Windows）— 一個快速、GPU 加速的終端模擬器，**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** 以一等 session 執行，權限請求進到專屬審核面板，而不是淹沒在捲動的輸出裡，寫出來的東西用程式碼智慧與視覺化 Git review 驗收。至於你一整天盯著的畫面，完全歸你：自訂背景圖、主題、字型、半透明外框。
 
 ### 為什麼選擇 Termdock？
 
-- **AI agent 原生支援** — Claude Code、Codex、Gemini CLI、GitLab Duo 皆為一等 session；agent 預設在背景工作，不會搶走你的 pane
+- **AI agent 原生支援** — Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo 皆為一等 session；agent 預設在背景工作，不會搶走你的 pane
+- **多台機器，一個碼頭** — 掛載區網配對裝置或任何 SSH 連得上的伺服器（Beta）的工作區，開遠端終端跟本機一個樣
 - **主導權在你手上** — 權限請求、問題、計畫審查變成卡片，在專屬面板核准或拒絕，人不在電腦前用手機也行
 - **驗收 AI 寫的程式碼** — 認得 web framework 的 code graph、diff 影響分析、含 blame 與 Twin Focus 反白的三欄式視覺化 Git review
 - **畫面由你作主** — 自訂背景圖、深淺色主題、自訂字型、半透明玻璃外框
@@ -40,14 +41,15 @@
 
 ---
 
-## ✨ v1.16 新功能
+## ✨ v1.19 新功能
 
-- **Git Review 全面翻新** — 三欄式視覺化 diff 審查含 blame、Twin Focus token 對應反白、唯讀 merge / conflict review
-- **Dock 停放** — 終端 session 拖進碼頭：隱藏但活著，通知照常累積
-- **資料夾拖進來就是 workspace** — 拖放即建，不用手動設定
-- **認得你 framework 的 code graph** — Express / Fastify / Koa / FastAPI / Flask 路由成為一等節點，任何改動都能做 diff 影響分析
-- **Rust 原生索引管線** — 大型專案索引明顯更快
-- **GitLab Duo 加入 agent 陣容** — 與 Claude Code、Codex、Gemini 並列
+- **SSH 遠端工作區（Beta）** — SSH 連得上的伺服器，目錄直接掛進工作區清單；終端手感跟本機一致，短暫斷線自動接回
+- **區網配對遠端**（v1.18 起） — 同網段裝置自動互相發現、配對一次長期信任、掛載對方工作區開遠端終端，全程端到端加密、不經雲端
+- **Windows 主機免設定** — 配對連到 Windows 不用再手動開防火牆，安裝程式會處理好
+- **Host 看得見** — 誰連進來、終端在跑什麼，Host 端即時檢視，唯讀不干擾
+- **排程自動化**（v1.17 起） — 排程注入提示與 idle keep-alive，現在可直接編輯既有排程
+- **亮色主題與表面翻新** — 深淺主題配色一致，彈窗可在設定選實心或玻璃質感
+- **App 內回報問題** — 新的 Report 選單，遇到狀況直接送出回報
 
 [完整 release notes →](https://github.com/termdock/termdock-issues/releases/latest)
 
@@ -57,7 +59,7 @@
 
 <div align="center">
 
-### 視覺化 Git Review — v1.16 新功能
+### 視覺化 Git Review
 *三欄式 diff 審查含 blame、跨檔導航與 Twin Focus token 對應反白*
 
 ![Termdock 視覺化 Git review — 三欄式 diff 審查含 blame 與 Twin Focus 反白](termdock-git-review.png)
@@ -85,7 +87,7 @@
 
 ### 把工作交出去
 
-別再盯著終端機的捲動輸出當保母。在 Termdock 裡，**Claude Code、Codex、Gemini CLI、GitLab Duo** 以受管理的 agent session 執行 — 預設在背景，它們埋頭苦幹，你的 pane 還是你的。
+別再盯著終端機的捲動輸出當保母。在 Termdock 裡，**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** 以受管理的 agent session 執行 — 預設在背景，它們埋頭苦幹，你的 pane 還是你的。
 
 - **Agent Workstream** — 權限請求、問題、計畫審查被攔截成結構化卡片，在專屬面板核准、拒絕或回覆；`termdock hooks setup` 一鍵接好全部 hook
 - **Terminal API** — 給 agent 與腳本的本地 HTTP API：建立、操控、讀取終端 session（含 headless）、SSE 即時串流輸出、service token 認證與速率限制。[API 文件](https://termdock.com/docs/terminal-api)
@@ -140,6 +142,15 @@ Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線
 - **檔案在 pane 內預覽** — Markdown、程式碼、JSON/YAML/XML、PDF、圖片跟終端機共用同一個 grid、同一套分頁與拖放規則
 - 功能完整的檔案總管、支援 `*`/`?` 萬用字元的模糊搜尋、Markdown 匯出 standalone HTML
 
+### 跨機器工作
+
+專案不會都在同一台電腦上。Termdock 把遠端工作區掛在本機工作區旁邊 — 同一個格線、同樣的分頁、同樣的快捷鍵。
+
+- **區網配對遠端** — 同網段裝置自動互相發現；配對一次成為信任裝置，掛載共享工作區走端到端加密通道，不經任何雲端
+- **SSH 遠端工作區（Beta）** — 填位址、登入，就能在任何 SSH 連得上的伺服器工作；目前以終端為主，檔案與 Git 面板陸續跟上
+- **斷了會自己好** — 短暫斷線與對方重啟都會自動重連，中斷的 session 會保留一段恢復期
+- **Host 完全掌控** — 分享預設關閉，不安全的根目錄直接擋下，連入的 session 看得到、可個別終止
+
 ### 監工，裝進口袋
 
 你離開座位，agent 不會停 — 你的監工也不用停。用 **Telegram 或 Discord** 遠端操控終端機：送輸入、讀輸出、背景終端有輸出時推播通知（/watch）、隨手截圖（/snap）。[設定指南](https://termdock.com/docs/remote-control)
@@ -148,15 +159,14 @@ Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線
 
 ## 即將推出
 
-### v1.17 — Agent 生態系（進行中）
+### v1.19 正式版 → v1.20
 
-- **OpenCode 整合** — OpenCode 加入 Claude Code、Codex、Gemini 行列，成為第四個 agent session provider，含 HTTP + SSE daemon client 與互動式終端 session
-- **ACP / AI API provider 選項** — provider 設定擴展
+- **SSH 遠端收尾** — 從 Beta 打磨到穩定
+- **遠端檔案與 Git 面板** — 掛載的遠端工作區不只終端，檔案瀏覽與 Git review 也要跟上
 
-### 之後（v1.18+）
+### 之後
 
-- **Remote / 瀏覽器存取** — 在桌面應用之外操作你的終端機
-- **多 Git 倉庫工作區** — 單一 workspace 掛載多個 repo
+- **瀏覽器存取** — 在桌面應用之外操作你的終端機
 - **Windows 原生 Rust PTY**
 - **Linux 支援**
 

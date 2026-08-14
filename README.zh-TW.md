@@ -28,7 +28,7 @@
 
 ## 什麼是 Termdock？
 
-寫軟體的方式變了：agent 動手，你下指令。Termdock 是為這個現實打造的**終端機優先開發環境**（支援 macOS 與 Windows）— 一個快速、GPU 加速的終端模擬器，**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** 以一等 session 執行，權限請求進到專屬審核面板，而不是淹沒在捲動的輸出裡，寫出來的東西用程式碼智慧與視覺化 Git review 驗收。至於你一整天盯著的畫面，完全歸你：自訂背景圖、主題、字型、半透明外框。
+寫軟體的方式變了：agent 動手，你下指令。Termdock 是為這個現實打造的**終端機優先開發環境**（支援 macOS 與 Windows）— 一個快速、GPU 加速的終端模擬器，**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** 以一等 session 執行，權限請求進到專屬審核面板，而不是淹沒在捲動的輸出裡，寫出來的東西用程式碼智慧與視覺化 Git review 驗收。工作區也不必都在本機：區網配對另一台機器、或用 SSH（Beta）連上任何伺服器，遠端終端就開在本機終端旁邊。至於你一整天盯著的畫面，完全歸你：自訂背景圖、主題、字型、半透明外框。
 
 ### 為什麼選擇 Termdock？
 

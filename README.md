@@ -28,7 +28,7 @@
 
 ## What is Termdock?
 
-The way we build software has changed: the agent writes, you direct. Termdock is a **terminal-first development environment for macOS and Windows** built around that reality — a fast, GPU-accelerated terminal emulator where **Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo** run as first-class sessions, their permission requests land in an approval panel instead of scrolling past, and their output gets verified with code intelligence and visual Git review. Meanwhile, the screen you stare at all day is entirely yours: custom background images, themes, fonts, translucent chrome.
+The way we build software has changed: the agent writes, you direct. Termdock is a **terminal-first development environment for macOS and Windows** built around that reality — a fast, GPU-accelerated terminal emulator where **Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo** run as first-class sessions, their permission requests land in an approval panel instead of scrolling past, and their output gets verified with code intelligence and visual Git review. Your workspaces don’t have to be local either: pair with another machine over the LAN or reach any server over SSH (beta), and their terminals open right next to your own. Meanwhile, the screen you stare at all day is entirely yours: custom background images, themes, fonts, translucent chrome.
 
 ### Why Termdock?
 

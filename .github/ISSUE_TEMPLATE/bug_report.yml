@@ -26,8 +26,8 @@ body:
       label: Platform
       description: Which platform are you using?
       options:
-        - macOS (Intel)
         - macOS (Apple Silicon - M1 ~ M5)
+        - macOS (Intel)
         - Windows
         - Other
     validations:

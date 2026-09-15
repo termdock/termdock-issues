@@ -1,7 +1,7 @@
 # Auto-label config for termdock-issues (public repo)
 # Prompt language: English (international users)
 
-model: mistral-medium-latest
+model: ministral-8b-2512
 
 rate_limit_delay_ms: 1500
 

@@ -8,6 +8,8 @@ const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY
 const [owner, repo] = GITHUB_REPOSITORY.split('/')
 
 const config = parse(readFileSync('.github/label-config.yml', 'utf8'))
+// Model-swap testing: the workflow_dispatch `model` input overrides label-config.yml
+const model = process.env.INPUT_MODEL || config.model
 
 const issueNumber = process.env.INPUT_ISSUE_NUMBER
   ? parseInt(process.env.INPUT_ISSUE_NUMBER)
@@ -91,7 +93,7 @@ Return JSON only, no explanation:
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: config.model,
+      model,
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: systemPrompt },
@@ -285,7 +287,7 @@ async function processIssue(issue, { skipSync = false, candidates = [] } = {}) {
 
 async function main() {
   console.log(`Mode: ${dryRun ? 'dry-run' : 'live'}`)
-  console.log(`Model: ${config.model}`)
+  console.log(`Model: ${model}`)
 
   if (issueNumber) {
     const [issue, openIssues] = await Promise.all([

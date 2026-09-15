@@ -20,6 +20,10 @@ on:
         required: false
         default: true
         type: boolean
+      model:
+        description: 'Override the model in label-config.yml (model-swap testing)'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -56,4 +60,5 @@ jobs:
           INPUT_ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.issue.number || '' }}
           INPUT_STATE: ${{ github.event.inputs.state || 'open' }}
           INPUT_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          INPUT_MODEL: ${{ github.event.inputs.model || '' }}
         run: node .github/scripts/auto-label.mjs

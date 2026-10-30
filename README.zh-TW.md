@@ -2,9 +2,9 @@
 
 # Termdock
 
-**程式碼交給 AI 寫，畫面由你作主。**
+**為 Claude Code、Codex、Gemini CLI 等 AI 程式工具打造的終端機。**
 
-*macOS 與 Windows 的 AI 原生終端機 — 工作交給 Claude Code、Codex、Gemini、OpenCode 或 GitLab Duo，在一個 GPU 加速的工作區裡監工一切，而背景的每個像素都是你的。*
+在桌面工作區並排執行 AI，連接多台電腦、檢查 Git 修改，也能用手機操作終端機。Termdock 支援 macOS 與 Windows。
 
 [![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1033858&theme=light)](https://www.producthunt.com/products/termdock)
 
@@ -16,42 +16,36 @@
 
 ---
 
-## 展示影片
+> **這個儲存庫的用途**：下載發行版本、回報問題及參與討論。Termdock 應用程式的主要開發在私有儲存庫進行。
 
-![Termdock 展示 — AI agent 在多終端工作區寫程式，搭配自訂背景與主題](demo.gif)
+## 展示
 
-**[▶ 在 YouTube 觀看完整影片](https://www.youtube.com/watch?v=rjkPY-c4eMM)**
-
-> **注意**: 此 repository 用於**下載 Termdock 安裝檔**與**回報問題**。主要開發在私有 repository 進行。
+[查看動態展示（92 MB）](demo.gif) · [在 YouTube 觀看影片](https://www.youtube.com/watch?v=rjkPY-c4eMM)
 
 ---
 
 ## 什麼是 Termdock？
 
-寫軟體的方式變了：agent 動手，你下指令。Termdock 是為這個現實打造的**終端機優先開發環境**（支援 macOS 與 Windows）— 一個快速、GPU 加速的終端模擬器，**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** 以一等 session 執行，權限請求進到專屬審核面板，而不是淹沒在捲動的輸出裡，寫出來的東西用程式碼智慧與視覺化 Git review 驗收。工作區也不必都在本機：區網配對另一台機器、或用 SSH（Beta）連上任何伺服器，遠端終端就開在本機終端旁邊。至於你一整天盯著的畫面，完全歸你：自訂背景圖、主題、字型、半透明外框。
+Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同一個桌面應用程式。你可以使用自己安裝的 AI 工具與帳號，模型服務的訂閱費用另計；工作區的背景、主題與字型也能自訂。
 
 ### 為什麼選擇 Termdock？
 
-- **AI agent 原生支援** — Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo 皆為一等 session；agent 預設在背景工作，不會搶走你的 pane
-- **多台機器，一個碼頭** — 掛載區網配對裝置或任何 SSH 連得上的伺服器（Beta）的工作區，開遠端終端跟本機一個樣
-- **主導權在你手上** — 權限請求、問題、計畫審查變成卡片，在專屬面板核准或拒絕，人不在電腦前用手機也行
-- **驗收 AI 寫的程式碼** — 認得 web framework 的 code graph、diff 影響分析、含 blame 與 Twin Focus 反白的三欄式視覺化 Git review
-- **畫面由你作主** — 自訂背景圖、深淺色主題、自訂字型、半透明玻璃外框
-- **快速又省電** — WebGL（GPU）渲染讓大量輸出下的 renderer CPU 降約 90%，電池模式自動節能
+- **同時使用 AI 程式工具**：在終端工作階段執行 Claude Code、Codex、Gemini CLI、OpenCode 與 GitLab Duo。
+- **連接多台電腦**：配對 Termdock 裝置，使用對方分享的工作區；也能透過 Beta 版 SSH 整合連線到伺服器。
+- **讓工作繼續執行**：本機與 peer 終端機可在 App 重啟時繼續運作，但主機須保持開機與登入。SSH 終端會隨 App 結束。
+- **檢查 AI 的修改**：查看 Git 差異，並用程式碼圖探索受影響的呼叫端。
+- **用手機瀏覽器操作**：在可信任網路配對後查看終端輸出並送出輸入。桌面 Workstream 面板不在瀏覽器中提供。
+- **自訂終端畫面**：選擇主題、字型與背景圖片。
 
 ---
 
-## ✨ v1.19 新功能
+## 開始使用
 
-- **SSH 遠端工作區（Beta）** — SSH 連得上的伺服器，目錄直接掛進工作區清單；終端手感跟本機一致，短暫斷線自動接回
-- **區網配對遠端**（v1.18 起） — 同網段裝置自動互相發現、配對一次長期信任、掛載對方工作區開遠端終端，全程端到端加密、不經雲端
-- **Windows 主機免設定** — 配對連到 Windows 不用再手動開防火牆，安裝程式會處理好
-- **Host 看得見** — 誰連進來、終端在跑什麼，Host 端即時檢視，唯讀不干擾
-- **排程自動化**（v1.17 起） — 排程注入提示與 idle keep-alive，現在可直接編輯既有排程
-- **亮色主題與表面翻新** — 深淺主題配色一致，彈窗可在設定選實心或玻璃質感
-- **App 內回報問題** — 新的 Report 選單，遇到狀況直接送出回報
+1. [下載最新發行版本](https://github.com/termdock/termdock-issues/releases/latest)，安裝 macOS 或 Windows 版本。
+2. 安裝並登入想使用的 AI CLI 工具。Termdock 不包含這些工具的帳號或訂閱。
+3. 開啟專案資料夾作為工作區，建立終端機後啟動 AI。詳見[入門指南](https://termdock.com/docs/getting-started/zh)。
 
-[完整 release notes →](https://github.com/termdock/termdock-issues/releases/latest)
+各版本的變更請查看[最新發行說明](https://github.com/termdock/termdock-issues/releases/latest)。
 
 ---
 
@@ -64,10 +58,10 @@
 
 ![Termdock 視覺化 Git review — 三欄式 diff 審查含 blame 與 Twin Focus 反白](termdock-git-review.png)
 
-### 程式碼智慧
-*13+ 種語言的符號搜尋、呼叫圖與相依性視覺化*
+### 工作區歡迎畫面
+*建立工作區或開啟終端機。*
 
-![Termdock 程式碼分析 — AST 符號搜尋與相依圖](termdock-code-analysis.png)
+![Termdock 歡迎畫面，提供建立工作區與開啟終端機的選項](termdock-code-analysis.png)
 
 ### 多終端工作區
 *終端機、檔案預覽、repository 與 AI agent 在同一個 grid*
@@ -85,13 +79,13 @@
 
 ## 功能特色
 
-### 把工作交出去
+### 執行 Claude Code、Codex 等 AI 工具
 
-別再盯著終端機的捲動輸出當保母。在 Termdock 裡，**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** 以受管理的 agent session 執行 — 預設在背景，它們埋頭苦幹，你的 pane 還是你的。
+在受管理的終端工作階段執行 **Claude Code、Codex、Gemini CLI、OpenCode 與 GitLab Duo**。其他命令列工具也能在終端機執行；各 AI 的專屬整合功能可能不同。
 
-- **Agent Workstream** — 權限請求、問題、計畫審查被攔截成結構化卡片，在專屬面板核准、拒絕或回覆；`termdock hooks setup` 一鍵接好全部 hook
+- **Agent Workstream**：設定支援的 AI 工具 hooks 後，可在桌面面板處理權限請求、問題與計畫。設定方式見 [CLI 指南](https://termdock.com/docs/cli/zh)。
 - **Terminal API** — 給 agent 與腳本的本地 HTTP API：建立、操控、讀取終端 session（含 headless）、SSE 即時串流輸出、service token 認證與速率限制。[API 文件](https://termdock.com/docs/terminal-api)
-- **`termdock` CLI** — 從任何 shell script 建立、attach、follow session，或查詢目前 focused workspace
+- **`termdock` CLI**：macOS 可安裝命令列工具，從 shell 腳本建立、接上及追蹤工作階段。Windows 可使用桌面 App 與本地 HTTP Terminal API；CLI 一鍵安裝目前限 macOS。
 - **語音輸入**（Whisper）、**AI 生成 commit 訊息**（BYOK）、可安裝的 **Claude Code Skills** 教 Claude Code 操作 Termdock 的 AST 與 Terminal API
 
 ### 畫面由你作主
@@ -107,7 +101,7 @@
 
 Agent 的輸出像水庫洩洪。Termdock 用 **WebGL（GPU）渲染**取代 DOM 逐格排版 — 大量輸出下 renderer CPU 降約 90% — 搭配**自動節能模式**：用電池時收斂省電，插電時火力全開。
 
-- **Session 還原** — 關掉應用程式再回來，每個終端機都在你離開的地方
+- **工作階段持續執行**：主機保持開機與登入時，本機及 peer 終端可在 App 退出、當機或更新後繼續執行；SSH 終端會隨 App 結束。
 - **分割視窗與分頁** — 水平分割（Cmd+D）、垂直分割（Cmd+Shift+D）、拖放排序、快速切換（Cmd+1–9）、子母畫面模式
 - **Dock 停放** — 暫時不看的終端機拖進碼頭：不佔 pane、不進分頁列、通知照常累積，隨時撿回來
 - **背景與 headless 終端機** — 長時間執行的 shell 保留完整畫面狀態，不需要可見 pane
@@ -147,30 +141,21 @@ Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線
 專案不會都在同一台電腦上。Termdock 把遠端工作區掛在本機工作區旁邊 — 同一個格線、同樣的分頁、同樣的快捷鍵。
 
 - **區網配對遠端** — 同網段裝置自動互相發現；配對一次成為信任裝置，掛載共享工作區走端到端加密通道，不經任何雲端
-- **SSH 遠端工作區（Beta）** — 填位址、登入，就能在任何 SSH 連得上的伺服器工作；目前以終端為主，檔案與 Git 面板陸續跟上
-- **斷了會自己好** — 短暫斷線與對方重啟都會自動重連，中斷的 session 會保留一段恢復期
+- **SSH 遠端工作區（Beta）**：連線到可透過 SSH 存取的伺服器，在 Termdock 開啟遠端終端。SSH 終端會在 App 關閉時結束。
+- **重新連線**：短暫斷線後可重新接上。背景終端要持續執行，主機須保持開機與登入。
 - **Host 完全掌控** — 分享預設關閉，不安全的根目錄直接擋下，連入的 session 看得到、可個別終止
 
-### 監工，裝進口袋
+### 用手機或瀏覽器操作
 
-你離開座位，agent 不會停 — 你的監工也不用停。用 **Telegram 或 Discord** 遠端操控終端機：送輸入、讀輸出、背景終端有輸出時推播通知（/watch）、隨手截圖（/snap）。[設定指南](https://termdock.com/docs/remote-control)
+在可信任的網路上配對手機或桌面瀏覽器後，可以查看本機終端輸出並送出輸入。瀏覽器連線使用 HTTP，請使用可信任網路；從外部連線時，需自行設定 Tailscale 等 VPN。瀏覽器不包含桌面的 Workstream 權限審核面板。[瀏覽器連線指南](https://termdock.com/docs/browser-access/zh)
+
+也可以透過 **Telegram 或 Discord** 傳送終端輸入、讀取輸出、接收通知及取得截圖。[遠端控制指南](https://termdock.com/docs/remote-control/zh)
 
 ---
 
-## 即將推出
+## 路線圖與發行版本
 
-### v1.19 正式版 → v1.20
-
-- **SSH 遠端收尾** — 從 Beta 打磨到穩定
-- **遠端檔案與 Git 面板** — 掛載的遠端工作區不只終端，檔案瀏覽與 Git review 也要跟上
-
-### 之後
-
-- **瀏覽器存取** — 在桌面應用之外操作你的終端機
-- **Windows 原生 Rust PTY**
-- **Linux 支援**
-
-[查看完整路線圖](https://termdock.com/roadmap) • [功能建議](https://github.com/termdock/termdock-issues/discussions)
+[路線圖](https://termdock.com/roadmap)記錄長期規劃，內容可能落後於最新發行版本。已推出的功能請以[發行說明](https://github.com/termdock/termdock-issues/releases)為準；想法與建議可到[討論區](https://github.com/termdock/termdock-issues/discussions)提出。
 
 ---
 
@@ -191,17 +176,19 @@ brew install --cask termdock
 |---|---|
 | macOS（Apple Silicon，推薦） | `Termdock-x.x.x-arm64.dmg` |
 | macOS（Intel） | `Termdock-x.x.x.dmg` |
-| Windows | `Termdock.Setup.x.x.x.exe` |
-| Linux | 即將推出 |
+| Windows | 最新發行版本中的 `.exe` 安裝檔 |
+| Linux | 目前沒有公開安裝檔 |
 
-**macOS 系統需求**：macOS 10.14 以上，Intel 或 Apple Silicon（建議 M1/M2/M3/M4）
+**macOS 最低版本**：macOS 12.0 以上，支援 Intel 與 Apple Silicon。
 
 **macOS 安裝步驟**
 1. 下載對應你 Mac 的 DMG 檔案
 2. 開啟 DMG 並將 Termdock 拖曳至應用程式資料夾
-3. 首次啟動可能需要在 `系統偏好設定` → `安全性與隱私權` 允許應用程式
+3. 如果 macOS 阻擋首次啟動，請先查看安全性訊息，確認下載來源後再決定是否允許。
 
-> **Intel Mac 使用者**：若終端機無法啟動，請更新至 1.3.2 以上版本（修復 ARM64 PTY 載入問題）。若錯誤持續，點擊錯誤對話框的「確定」複製日誌並[貼到 GitHub issue](https://github.com/termdock/termdock-issues/issues)。
+**Windows 安裝步驟**：下載最新發行版本中的 `.exe` 安裝檔，執行並依照畫面提示完成安裝。
+
+如果應用程式或終端機無法啟動，請在[回報問題](https://github.com/termdock/termdock-issues/issues)時提供 Termdock 版本、作業系統與錯誤資訊。
 
 ---
 

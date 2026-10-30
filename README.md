@@ -2,7 +2,7 @@
 
 # Termdock
 
-**An AI terminal for Claude Code, Codex, Gemini CLI, and other coding agents.**
+**An AI terminal for Claude Code, Codex, Antigravity CLI (agy), and other coding agents.**
 
 Run agents side by side in a desktop workspace, connect computers, review Git changes, and use terminal sessions from your phone. Termdock is available for macOS and Windows.
 
@@ -30,7 +30,7 @@ Termdock combines a terminal emulator, AI agent sessions, remote workspaces, and
 
 ### Why Termdock?
 
-- **Run AI coding tools side by side:** Use Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo in terminal sessions.
+- **Run AI coding tools side by side:** Use Claude Code, Codex, Antigravity CLI (agy), OpenCode, and GitLab Duo in terminal sessions.
 - **Connect computers:** Pair Termdock devices to work in shared peer workspaces, or connect to an SSH server using the beta integration.
 - **Keep work running:** Local and peer terminals can continue through app restarts while their host remains running and signed in. SSH terminals end with the app.
 - **Review agent changes:** Inspect Git diffs and use the code graph to explore affected callers.
@@ -81,7 +81,7 @@ For version-specific changes, see the [latest release notes](https://github.com/
 
 ### Run Claude Code, Codex, and Other AI Agents
 
-Run supported agents such as **Claude Code, Codex, Gemini CLI, OpenCode, and GitLab Duo** in managed terminal sessions. Other command-line tools can also run in a terminal; agent-specific integrations vary by provider.
+Run supported agents such as **Claude Code, Codex, Antigravity CLI (agy), OpenCode, and GitLab Duo** in managed terminal sessions. Other command-line tools can also run in a terminal; agent-specific integrations vary by provider. In v1.24, Antigravity CLI uses a terminal-backed session, and the Agent Sessions API does not support resume or attach for it.
 
 - **Agent Workstream:** After setting up hooks for a supported agent, review permission requests, questions, and plans in the desktop panel. See the [CLI guide](https://termdock.com/docs/cli) for setup.
 - **Terminal API** — a local HTTP API for agents and scripts: create, control, and read terminal sessions (including headless ones), stream output in real time via SSE, authenticate with service tokens and rate limiting. [API Documentation](https://termdock.com/docs/terminal-api)

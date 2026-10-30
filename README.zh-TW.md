@@ -2,7 +2,7 @@
 
 # Termdock
 
-**為 Claude Code、Codex、Gemini CLI 等 AI 程式工具打造的終端機。**
+**為 Claude Code、Codex、Antigravity CLI（agy） 等 AI 程式工具打造的終端機。**
 
 在桌面工作區並排執行 AI，連接多台電腦、檢查 Git 修改，也能用手機操作終端機。Termdock 支援 macOS 與 Windows。
 
@@ -30,7 +30,7 @@ Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同
 
 ### 為什麼選擇 Termdock？
 
-- **同時使用 AI 程式工具**：在終端工作階段執行 Claude Code、Codex、Gemini CLI、OpenCode 與 GitLab Duo。
+- **同時使用 AI 程式工具**：在終端工作階段執行 Claude Code、Codex、Antigravity CLI（agy）、OpenCode 與 GitLab Duo。
 - **連接多台電腦**：配對 Termdock 裝置，使用對方分享的工作區；也能透過 Beta 版 SSH 整合連線到伺服器。
 - **讓工作繼續執行**：本機與 peer 終端機可在 App 重啟時繼續運作，但主機須保持開機與登入。SSH 終端會隨 App 結束。
 - **檢查 AI 的修改**：查看 Git 差異，並用程式碼圖探索受影響的呼叫端。
@@ -81,7 +81,7 @@ Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同
 
 ### 執行 Claude Code、Codex 等 AI 工具
 
-在受管理的終端工作階段執行 **Claude Code、Codex、Gemini CLI、OpenCode 與 GitLab Duo**。其他命令列工具也能在終端機執行；各 AI 的專屬整合功能可能不同。
+在受管理的終端工作階段執行 **Claude Code、Codex、Antigravity CLI（agy）、OpenCode 與 GitLab Duo**。其他命令列工具也能在終端機執行；各 AI 的專屬整合功能可能不同。v1.24 的 Antigravity CLI 使用終端工作階段，Agent Sessions API 目前不支援回復或接續它的工作階段。
 
 - **Agent Workstream**：設定支援的 AI 工具 hooks 後，可在桌面面板處理權限請求、問題與計畫。設定方式見 [CLI 指南](https://termdock.com/docs/cli/zh)。
 - **Terminal API** — 給 agent 與腳本的本地 HTTP API：建立、操控、讀取終端 session（含 headless）、SSE 即時串流輸出、service token 認證與速率限制。[API 文件](https://termdock.com/docs/terminal-api)

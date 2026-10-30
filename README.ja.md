@@ -2,7 +2,7 @@
 
 # Termdock
 
-**Claude Code、Codex、Gemini CLI などのための AI ターミナル。**
+**Claude Code、Codex、Antigravity CLI（agy） などのための AI ターミナル。**
 
 デスクトップのワークスペースでエージェントを並行して実行し、複数のコンピューターを接続して Git の変更を確認できます。スマートフォンからターミナルを操作することもできます。Termdock は macOS と Windows に対応しています。
 
@@ -30,7 +30,7 @@ Termdock は、ターミナル、AI エージェントセッション、リモ�
 
 ### なぜ Termdock？
 
-- **AI コーディングツールを並行して使う**：Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo をターミナルセッションで実行できます。
+- **AI コーディングツールを並行して使う**：Claude Code、Codex、Antigravity CLI（agy）、OpenCode、GitLab Duo をターミナルセッションで実行できます。
 - **複数のコンピューターを接続**：Termdock 同士をペアリングして共有ワークスペースを使うか、ベータ版の SSH 接続でサーバーに接続できます。
 - **作業を継続**：ホストが起動・ログイン中なら、ローカルと peer のターミナルはアプリの再起動中も動作を続けられます。SSH ターミナルはアプリとともに終了します。
 - **AI の変更を確認**：Git の差分をレビューし、コードグラフで影響を受ける呼び出し元を調べられます。
@@ -81,7 +81,7 @@ Termdock は、ターミナル、AI エージェントセッション、リモ�
 
 ### Claude Code、Codex などの AI エージェントを実行
 
-**Claude Code、Codex、Gemini CLI、OpenCode、GitLab Duo** を管理対象のターミナルセッションで実行できます。ほかのコマンドラインツールもターミナルで利用できますが、エージェント固有の連携機能は提供元によって異なります。
+**Claude Code、Codex、Antigravity CLI（agy）、OpenCode、GitLab Duo** を管理対象のターミナルセッションで実行できます。ほかのコマンドラインツールもターミナルで利用できますが、エージェント固有の連携機能は提供元によって異なります。v1.24 の Antigravity CLI はターミナル形式で動作し、Agent Sessions API からの再開やアタッチには対応していません。
 
 - **Agent Workstream**：対応エージェントの hooks を設定すると、権限リクエスト、質問、プランをデスクトップパネルで確認できます。設定方法は [CLI ガイド](https://termdock.com/docs/cli)を参照してください。
 - **Terminal API** — エージェントとスクリプトのためのローカル HTTP API：ターミナルセッション（ヘッドレス含む）の作成・制御・読み取り、SSE によるリアルタイム出力ストリーミング、サービストークン認証とレート制限。[API ドキュメント](https://termdock.com/docs/terminal-api)

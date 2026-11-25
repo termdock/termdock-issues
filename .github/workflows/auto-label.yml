@@ -28,7 +28,7 @@ on:
 permissions:
   contents: read
   issues: write
-  # Claude API: exchange the GitHub OIDC token (Claude Console rule termdock-issues-main, main only)
+  # Claude API: exchange the GitHub OIDC token (main only)
   id-token: write
 
 jobs:

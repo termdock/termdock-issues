@@ -1,6 +1,6 @@
 // Claude API through workload identity federation: the GitHub Actions OIDC token is exchanged
 // for a short-lived access token, so no API key is stored. The Claude Console federation rule
-// accepts only this repo's main branch. Its IDs are repo variables.
+// accepts only this repo's main branch. Its IDs are repo secrets.
 import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import Anthropic from '@anthropic-ai/sdk'
@@ -44,7 +44,7 @@ export async function createWifClient() {
   const overrides = AUTH_OVERRIDES.filter((name) => process.env[name] !== undefined)
   if (overrides.length) throw new Error(`Remove ${overrides.join(', ')}: this workflow uses WIF only`)
   const missing = WIF_VARIABLES.filter((name) => !process.env[name]?.trim())
-  if (missing.length) throw new Error(`Missing repo variables: ${missing.join(', ')}`)
+  if (missing.length) throw new Error(`Missing repo secrets: ${missing.join(', ')}`)
 
   // Empty SDK config directory, so no existing profile on the runner is used
   const dir = join(process.env.RUNNER_TEMP || '.', `anthropic-wif-${process.pid}`)

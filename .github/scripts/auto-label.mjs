@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs'
 import { parse } from 'yaml'
+import { createWifClient, refreshIdentityToken } from './anthropic-wif.mjs'
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN
-const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY
 const INTERNAL_TOKEN = process.env.INTERNAL_REPO_TOKEN
 const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY
 const [owner, repo] = GITHUB_REPOSITORY.split('/')
@@ -44,7 +44,7 @@ async function ghApi(path, options = {}, token = GITHUB_TOKEN) {
   return res.json()
 }
 
-async function mistralClassify(title, body, candidates) {
+async function classify(client, title, body, candidates) {
   const allLabels = ALL_CATEGORIES.flatMap((c) => config.labels[c] || [])
 
   const labelDefs = allLabels
@@ -86,33 +86,38 @@ Return JSON only, no explanation:
 {"spam": false, "duplicate_of": null, "labels": ["label1", "label2"]}
 "duplicate_of" is a number or null. Only use label names from the list above.`
 
-  const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${MISTRAL_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: `Title: ${title}\n\nBody:\n${(body || '(no content)').slice(0, 4000)}`,
+  await refreshIdentityToken()
+  const response = await client.messages.create({
+    model,
+    max_tokens: 1024,
+    output_config: {
+      format: {
+        type: 'json_schema',
+        schema: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            spam: { type: 'boolean' },
+            duplicate_of: { anyOf: [{ type: 'integer' }, { type: 'null' }] },
+            labels: { type: 'array', items: { type: 'string', enum: allLabels.map((l) => l.name) } },
+          },
+          required: ['spam', 'duplicate_of', 'labels'],
         },
-      ],
-      temperature: 0.1,
-    }),
+      },
+    },
+    system: systemPrompt,
+    messages: [
+      {
+        role: 'user',
+        content: `Title: ${title}\n\nBody:\n${(body || '(no content)').slice(0, 4000)}`,
+      },
+    ],
   })
 
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Mistral API: ${res.status} ${text}`)
+  if (response.stop_reason !== 'end_turn') {
+    throw new Error(`Claude classification did not complete: stop_reason=${response.stop_reason}`)
   }
-
-  const data = await res.json()
-  const parsed = JSON.parse(data.choices[0].message.content)
+  const parsed = JSON.parse(response.content.filter((b) => b.type === 'text').map((b) => b.text).join(''))
 
   const validNames = new Set(allLabels.map((l) => l.name))
   const labels = (parsed.labels || []).filter((l) => validNames.has(l))
@@ -227,7 +232,7 @@ async function listIssues(state) {
   return issues
 }
 
-async function processIssue(issue, { skipSync = false, candidates = [] } = {}) {
+async function processIssue(client, issue, { skipSync = false, candidates = [] } = {}) {
   const existingLabels = issue.labels.map((l) => l.name)
 
   // Maintainer-authored and official issues bypass the spam/duplicate gate.
@@ -235,7 +240,8 @@ async function processIssue(issue, { skipSync = false, candidates = [] } = {}) {
     existingLabels.includes('official') ||
     ['OWNER', 'MEMBER', 'COLLABORATOR'].includes(issue.author_association)
 
-  const { labels, spam, duplicateOf } = await mistralClassify(
+  const { labels, spam, duplicateOf } = await classify(
+    client,
     issue.title,
     issue.body,
     candidates.filter((c) => c.number !== issue.number)
@@ -288,6 +294,7 @@ async function processIssue(issue, { skipSync = false, candidates = [] } = {}) {
 async function main() {
   console.log(`Mode: ${dryRun ? 'dry-run' : 'live'}`)
   console.log(`Model: ${model}`)
+  const client = await createWifClient()
 
   if (issueNumber) {
     const [issue, openIssues] = await Promise.all([
@@ -295,14 +302,14 @@ async function main() {
       listIssues('open'),
     ])
     const candidates = openIssues.map((i) => ({ number: i.number, title: i.title }))
-    await processIssue(issue, { candidates })
+    await processIssue(client, issue, { candidates })
   } else {
     const issues = await listIssues(issueState)
     console.log(`Total: ${issues.length} ${issueState} issues`)
     const candidates = issues.map((i) => ({ number: i.number, title: i.title }))
 
     for (let i = 0; i < issues.length; i++) {
-      await processIssue(issues[i], { skipSync: true, candidates })
+      await processIssue(client, issues[i], { skipSync: true, candidates })
       if (i < issues.length - 1) {
         await new Promise((r) => setTimeout(r, config.rate_limit_delay_ms))
       }

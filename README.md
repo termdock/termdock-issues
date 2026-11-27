@@ -36,6 +36,7 @@ Termdock combines a terminal emulator, AI agent sessions, remote workspaces, and
 - **Review agent changes:** Inspect Git diffs and use the code graph to explore affected callers.
 - **Use a phone browser:** Pair on a trusted network to read terminal output and send input. The desktop Workstream panel is not available in the browser.
 - **Make the terminal yours:** Choose themes, fonts, and background images.
+- **Private by design:** No telemetry and no Termdock servers. Your code, terminal output, and settings stay on your own computers.
 
 ---
 
@@ -46,6 +47,29 @@ Termdock combines a terminal emulator, AI agent sessions, remote workspaces, and
 3. Open a project folder as a workspace, create a terminal, and start your agent. See the [getting started guide](https://termdock.com/docs/getting-started).
 
 For version-specific changes, see the [latest release notes](https://github.com/termdock/termdock-issues/releases/latest).
+
+---
+
+## Privacy
+
+- **We never read your code.** Termdock reads your files only on your own computer, for features like search and the code graph. Your code, terminal output, prompts, and account data are never sent to us.
+- **No telemetry.** No analytics, no usage tracking, no crash upload. Crash dumps and diagnostic reports stay on your computer unless you choose to share them.
+- **No Termdock servers.** We don't run any server that collects or stores user data. Termdock only downloads public files from GitHub: app updates, skill updates, and a model price list.
+
+---
+
+## Coming in 1.28
+
+Version 1.28 is in testing. Highlights:
+
+- **A lighter background terminal service.** The service that keeps terminals running after you quit is rewritten in Rust. On macOS, the service itself (not counting the Termdock app) uses 66 MiB instead of 140 MiB with ten terminals full of agent output, and about 1.5 MiB with no terminals open. Memory goes back to the system when you close terminals. The macOS (Apple Silicon) install shrinks from 623 MiB to 487 MiB.
+- **GPU rendering by default, with far less memory under heavy output.** Terminals render with WebGL, including over custom background images. In our test that replays recorded agent output, the window's rendering memory peaked at 45 MB instead of 396 MB, and it no longer jumps up in steps as output keeps coming. After cleanup, 7 MB stays in use instead of 17 MB. You can still switch to DOM rendering in Settings.
+- **A native `termdock` command.** The command-line tool is now a standalone program. Termdock replaces the old one the first time you open 1.28. A `termdock` command you changed yourself is left alone.
+- **Background terminals in panes.** A terminal started from the CLI or the Terminal API keeps updating after you move it into a pane, and keeps the name you gave it.
+- **Security fixes.** Termdock no longer runs a same-named file inside your workspace when it starts a language server, and it refuses to start if its main program file was changed.
+- **Inline image previews in terminal output are removed for now.** Click an image path in the output to open it in the image viewer.
+
+**Before you update:** if terminals are still running on the old background service, the first launch asks whether to stop it. Stopping it ends those terminals, so save your work first. You can choose **Later** and keep them running.
 
 ---
 
@@ -81,7 +105,7 @@ For version-specific changes, see the [latest release notes](https://github.com/
 
 ### Run Claude Code, Codex, and Other AI Agents
 
-Run supported agents such as **Claude Code, Codex, Antigravity CLI (agy), OpenCode, and GitLab Duo** in managed terminal sessions. Other command-line tools can also run in a terminal; agent-specific integrations vary by provider. In v1.24, Antigravity CLI uses a terminal-backed session, and the Agent Sessions API does not support resume or attach for it.
+Run supported agents such as **Claude Code, Codex, Antigravity CLI (agy), OpenCode, and GitLab Duo** in managed terminal sessions. Other command-line tools can also run in a terminal; agent-specific integrations vary by provider.
 
 - **Agent Workstream:** After setting up hooks for a supported agent, review permission requests, questions, and plans in the desktop panel. See the [CLI guide](https://termdock.com/docs/cli) for setup.
 - **Terminal API** — a local HTTP API for agents and scripts: create, control, and read terminal sessions (including headless ones), stream output in real time via SSE, authenticate with service tokens and rate limiting. [API Documentation](https://termdock.com/docs/terminal-api)
@@ -99,7 +123,7 @@ The agents may write the code, but the screen you stare at eight hours a day is 
 
 ### A Terminal That Stays Fast
 
-Agents produce a firehose of output. Termdock renders it with **WebGL (GPU)** instead of laying out every cell in the DOM — renderer CPU under heavy output drops by roughly 90% — and an **automatic power-saving mode** dials things back on battery and lets the GPU loose when you're plugged in.
+Agents produce a firehose of output. Termdock draws the terminal with **WebGL (GPU)** instead of laying out every cell in the DOM. From 1.28, WebGL is the default, and you can switch back to DOM rendering in Settings.
 
 - **Session persistence:** Local and peer terminals can keep running through app quits, crashes, and updates while the host remains running and signed in. SSH terminals end with the app.
 - **Split panes & tabs** — horizontal (Cmd+D) and vertical (Cmd+Shift+D) splits, drag-and-drop reordering, quick switching (Cmd+1–9), picture-in-picture mode
@@ -140,7 +164,7 @@ Drop a folder onto Termdock and you have a workspace. Tag it, and the sidebar an
 
 Your projects don't all live on one computer. Termdock mounts remote workspaces next to local ones — same grid, same tabs, same shortcuts.
 
-- **LAN Peer Remote** — devices on the same network discover each other automatically; pair once, stay trusted, and mount shared workspaces over an end-to-end encrypted channel with no cloud relay
+- **LAN Peer Remote** — devices on the same network discover each other automatically; pair once, stay trusted, and mount shared workspaces over an end-to-end encrypted channel
 - **SSH Remote Workspaces (Beta):** Connect to an SSH-reachable server and open its terminals in Termdock. SSH terminals end when the app closes.
 - **Reconnect:** Brief disconnects can reconnect. The host computer must stay running and signed in for background terminals to persist.
 - **Host stays in control** — sharing is off until enabled in Settings, unsafe roots are rejected, and inbound sessions are visible and individually terminable

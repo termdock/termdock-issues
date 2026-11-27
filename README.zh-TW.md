@@ -36,6 +36,7 @@ Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同
 - **檢查 AI 的修改**：查看 Git 差異，並用程式碼圖探索受影響的呼叫端。
 - **用手機瀏覽器操作**：在可信任網路配對後查看終端輸出並送出輸入。桌面 Workstream 面板不在瀏覽器中提供。
 - **自訂終端畫面**：選擇主題、字型與背景圖片。
+- **資料留在你自己的電腦**：沒有遙測，也沒有 Termdock 的伺服器。程式碼、終端輸出和設定都只存在你自己的電腦上。
 
 ---
 
@@ -49,12 +50,35 @@ Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同
 
 ---
 
+## 隱私
+
+- **我們不會讀你的任何程式碼。** Termdock 只在你自己的電腦上讀檔案，用來做搜尋、程式碼圖這些功能。你的程式碼、終端輸出、prompt 和帳號資料，一樣都不會傳到我們這邊。
+- **沒有遙測。** 不做使用分析、不追蹤操作，當掉也不會上傳。當機紀錄和診斷報告都留在你的電腦，除非你自己拿出來分享。
+- **我們沒有伺服器。** 我們沒有任何收集或保存使用者資料的伺服器。Termdock 只會從 GitHub 下載公開檔案：app 更新、skill 更新和模型價格表。
+
+---
+
+## 1.28 搶先看
+
+1.28 正在測試中，這版的重點：
+
+- **背景終端服務更省記憶體。** 讓終端在關掉 app 後繼續跑的背景服務，整個用 Rust 重寫了。在 macOS 上開十個塞滿 agent 輸出的終端，背景服務本身（不含 Termdock 主程式）的記憶體從 140 MiB 降到 66 MiB；沒開終端時，背景服務大約只用 1.5 MiB，關掉終端也會把記憶體還給系統。macOS（Apple Silicon）安裝後的大小從 623 MiB 瘦到 487 MiB。
+- **預設用 GPU 畫終端，大量輸出也不再吃掉一堆記憶體。** 終端改用 WebGL 繪製，有背景圖也一樣。我們用錄下來的 agent 輸出重播測試：畫面這一層的記憶體峰值從 396 MB 降到 45 MB，輸出一直灌進來也不會再一階一階往上跳；回收之後只多留 7 MB，以前是 17 MB。想換回 DOM，到設定裡切回來就好。
+- **`termdock` 指令改成原生程式。** 第一次開 1.28 會自動把舊的指令換掉；你自己改過的 `termdock` 指令不會被動到。
+- **背景終端放進 pane 也正常。** 用 CLI 或 Terminal API 開的終端，拉進 pane 之後畫面會繼續更新，名字也會保留。
+- **安全修正。** 啟動語言伺服器時，不會再跑到 workspace 裡同名的檔案；主程式檔被改過的話，Termdock 不會啟動。
+- **終端輸出裡的圖片預覽先拿掉了。** 要看圖，直接點輸出裡的圖片路徑，就會在圖片檢視器打開。
+
+**更新前先看：** 如果還有終端跑在舊的背景服務上，第一次打開會問你要不要停掉它。停掉會把那些終端一起結束，請先存檔；選「稍後」就讓它們繼續跑。
+
+---
+
 ## 螢幕截圖
 
 <div align="center">
 
 ### 視覺化 Git Review
-*三欄式 diff 審查含 blame、跨檔導航與 Twin Focus token 對應反白*
+*三欄式 diff 審查含 blame、跨檔跳轉與 Twin Focus token 對應反白*
 
 ![Termdock 視覺化 Git review — 三欄式 diff 審查含 blame 與 Twin Focus 反白](termdock-git-review.png)
 
@@ -81,7 +105,7 @@ Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同
 
 ### 執行 Claude Code、Codex 等 AI 工具
 
-在受管理的終端工作階段執行 **Claude Code、Codex、Antigravity CLI（agy）、OpenCode 與 GitLab Duo**。其他命令列工具也能在終端機執行；各 AI 的專屬整合功能可能不同。v1.24 的 Antigravity CLI 使用終端工作階段，Agent Sessions API 目前不支援回復或接續它的工作階段。
+在受管理的終端工作階段執行 **Claude Code、Codex、Antigravity CLI（agy）、OpenCode 與 GitLab Duo**。其他命令列工具也能在終端機執行；各 AI 的專屬整合功能可能不同。
 
 - **Agent Workstream**：設定支援的 AI 工具 hooks 後，可在桌面面板處理權限請求、問題與計畫。設定方式見 [CLI 指南](https://termdock.com/docs/cli/zh)。
 - **Terminal API** — 給 agent 與腳本的本地 HTTP API：建立、操控、讀取終端 session（含 headless）、SSE 即時串流輸出、service token 認證與速率限制。[API 文件](https://termdock.com/docs/terminal-api)
@@ -99,7 +123,7 @@ Termdock 把終端機、AI 工作階段、遠端工作區和 Git 審查放進同
 
 ### 快到底、省到底的終端機
 
-Agent 的輸出像水庫洩洪。Termdock 用 **WebGL（GPU）渲染**取代 DOM 逐格排版 — 大量輸出下 renderer CPU 降約 90% — 搭配**自動節能模式**：用電池時收斂省電，插電時火力全開。
+Agent 的輸出像水庫洩洪。Termdock 用 **WebGL（GPU）** 畫終端，不用 DOM 一格一格排版。從 1.28 開始預設就是 WebGL，想換回 DOM 可以在設定裡切換。
 
 - **工作階段持續執行**：主機保持開機與登入時，本機及 peer 終端可在 App 退出、當機或更新後繼續執行；SSH 終端會隨 App 結束。
 - **分割視窗與分頁** — 水平分割（Cmd+D）、垂直分割（Cmd+Shift+D）、拖放排序、快速切換（Cmd+1–9）、子母畫面模式
@@ -115,7 +139,7 @@ Shell 整合（OSC 133）記錄每條指令的輸出範圍與工作目錄，輸�
 
 ### 驗收 AI 寫的程式碼
 
-Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線**建出的 code graph 不只認得函數與 class，還認得你的 web framework，任何 diff 都能回推影響範圍。
+Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線**建出的 code graph 不只認得函式與 class，還認得你的 web framework，任何 diff 都能回推影響範圍。
 
 - **Diff 影響分析** — git diff 映射到 code graph 回推受影響的呼叫端，agent 的改動實際碰到什麼，收下之前就知道
 - **Framework 路由節點** — Express、Fastify、Koa、FastAPI、Flask 的路由成為 code graph 一等節點，route → handler → middleware 一路可追
@@ -124,7 +148,7 @@ Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線
 
 ### 在工作的地方 Review Git
 
-出貨 agent 的成果前的最後一關 — 不用跳去瀏覽器。Termdock 內建**視覺化 Git review 介面**：三欄式版面含 blame、跨檔導航、大檔案流暢處理。
+出貨 agent 的成果前的最後一關 — 不用跳去瀏覽器。Termdock 內建**視覺化 Git review 介面**：三欄式版面含 blame、跨檔跳轉、大檔案流暢處理。
 
 - **Twin Focus** — 左右兩側對應 token 同步反白，改名改了哪些一眼對上
 - **唯讀 merge / conflict review**、視覺化分支管理、配色跟著你的主題走
@@ -140,7 +164,7 @@ Agent 說「做完了！」— Termdock 幫你查證。**Rust 原生索引管線
 
 專案不會都在同一台電腦上。Termdock 把遠端工作區掛在本機工作區旁邊 — 同一個格線、同樣的分頁、同樣的快捷鍵。
 
-- **區網配對遠端** — 同網段裝置自動互相發現；配對一次成為信任裝置，掛載共享工作區走端到端加密通道，不經任何雲端
+- **區網配對遠端** — 同網段裝置自動互相發現；配對一次成為信任裝置，掛載共享工作區走端到端加密通道
 - **SSH 遠端工作區（Beta）**：連線到可透過 SSH 存取的伺服器，在 Termdock 開啟遠端終端。SSH 終端會在 App 關閉時結束。
 - **重新連線**：短暫斷線後可重新接上。背景終端要持續執行，主機須保持開機與登入。
 - **Host 完全掌控** — 分享預設關閉，不安全的根目錄直接擋下，連入的 session 看得到、可個別終止

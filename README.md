@@ -55,7 +55,6 @@ For version-specific changes, see the [latest release notes](https://github.com/
 - **No telemetry.** Termdock has no analytics, usage tracking, or crash upload. Crash dumps stay on your computer. A diagnostic report is a file you export yourself and choose whether to share.
 - **No Termdock servers.** We do not run any server that receives or stores your code, terminal output, prompts, or account data. Workspaces, history, and settings are saved on your computer.
 - **Termdock itself only contacts GitHub**, to check for and download updates, update the bundled agent skills, and fetch the public model price list used for usage estimates.
-- **Everything else is a connection you set up.** AI tools you sign in to, API keys you add (voice input, commit messages), Telegram or Discord remote control, and SSH servers all connect from your computer directly to that service. Paired Termdock devices connect to each other directly over an encrypted connection on your network.
 
 ---
 

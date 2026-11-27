@@ -52,9 +52,9 @@ For version-specific changes, see the [latest release notes](https://github.com/
 
 ## Privacy
 
-- **No telemetry.** Termdock has no analytics, usage tracking, or crash upload. Crash dumps stay on your computer. A diagnostic report is a file you export yourself and choose whether to share.
-- **No Termdock servers.** We do not run any server that receives or stores your code, terminal output, prompts, or account data. Workspaces, history, and settings are saved on your computer.
-- **Termdock itself only contacts GitHub**, to check for and download updates, update the bundled agent skills, and fetch the public model price list used for usage estimates.
+- **We never read your code.** Termdock reads your files only on your own computer, for features like search and the code graph. Your code, terminal output, prompts, and account data are never sent to us.
+- **No telemetry.** No analytics, no usage tracking, no crash upload. Crash dumps and diagnostic reports stay on your computer unless you choose to share them.
+- **No Termdock servers.** We don't run any server that collects or stores user data. Termdock only downloads public files from GitHub: app updates, skill updates, and a model price list.
 
 ---
 

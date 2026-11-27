@@ -63,7 +63,7 @@ For version-specific changes, see the [latest release notes](https://github.com/
 Version 1.28 is in testing. Highlights:
 
 - **A lighter background terminal service.** The service that keeps terminals running after you quit is rewritten in Rust. On macOS, the service itself (not counting the Termdock app) uses 66 MiB instead of 140 MiB with ten terminals full of agent output, and about 1.5 MiB with no terminals open. Memory goes back to the system when you close terminals. The macOS (Apple Silicon) install shrinks from 623 MiB to 487 MiB.
-- **GPU rendering by default.** Terminals render with WebGL, including over custom background images. You can still switch to DOM rendering in Settings.
+- **GPU rendering by default, with far less memory under heavy output.** Terminals render with WebGL, including over custom background images. In our test that replays recorded agent output, the window's rendering memory peaked at 45 MB instead of 396 MB, and it no longer jumps up in steps as output keeps coming. After cleanup, 7 MB stays in use instead of 17 MB. You can still switch to DOM rendering in Settings.
 - **A native `termdock` command.** The command-line tool is now a standalone program. Termdock replaces the old one the first time you open 1.28. A `termdock` command you changed yourself is left alone.
 - **Background terminals in panes.** A terminal started from the CLI or the Terminal API keeps updating after you move it into a pane, and keeps the name you gave it.
 - **Security fixes.** Termdock no longer runs a same-named file inside your workspace when it starts a language server, and it refuses to start if its main program file was changed.
